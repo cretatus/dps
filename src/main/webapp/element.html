@@ -1,0 +1,203 @@
+<div class="jumbotron text-center">
+    <div class="container">
+    	
+    	<div ng-show="tableView" class="tableScroll">
+			<table>
+				<tr>
+					<td align="left"><h4>Filter:</h4></td>
+					<td width="10"></td>
+					<td align="right">Module</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="version.label for version in versions|orderBy:'-name' track by version.id"
+								name="version" id="version" class="form-control" ng-model="currentVersion"
+								ng-change="read()">
+						</select>
+					</td>
+					<td width="10"></td>
+					<td align="right">Area</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="area.name for area in areas|orderBy:'-name' track by area.id"
+								name="area" id="area" class="form-control" ng-model="search.area"
+								ng-change="search.area=search.area?search.area:{}">
+								<option label="" value="" selected="selected">( All )</option>
+						</select>
+					</td>
+					<td width="10"></td>
+					<td align="right">Stereotype</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="stereotype.label for stereotype in stereotypes track by stereotype.id"
+								name="stereotype" id="stereotype" class="form-control" ng-model="search.stereotype"
+								ng-change="search.stereotype=search.stereotype?search.stereotype:{}">
+								<option label="" value="" selected="selected">( All )</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<table width="100%">
+				<tr>
+					<td align="left"><h4>Data elements:</h4></td>
+					<td align="right">
+			    		<button ng-click="add()" type="button" class="btn btn-success">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"> Add data element</span>
+						</button>
+					</td>
+				</tr>
+			</table>
+			<p></p>
+			<table class="table table-striped table-bordered .table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Area</th>
+						<th>Stereotype</th>
+						<th>Name</th>
+						<th>Sysname</th>
+						<th>Type</th>
+						<th>Size</th>
+						<th style="width:230px;">Command</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="element in elements|filter:search|orderBy:'name'">
+						<td>{{element.id}}</td>
+						<td>{{element.area.name}}</td>
+						<td>{{element.stereotype.label}}</td>
+						<td>{{element.name}}</td>
+						<td>{{element.sysname}}</td>
+						<td align="left">{{element.detail}}</td>
+						<td>{{element.size}}</td>
+						<td width="160">
+							<button ng-click="edit(element)" type="button" class="btn btn-warning" data-tooltip="Edit">
+									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							</button>
+							<button ng-click="remove(element)" type="button" class="btn btn-danger" data-tooltip="Remove">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br/>
+		</div>
+		<div ng-show="addView || editView">
+			<h3 ng-show="editView">Edit</h3>
+			<h3 ng-show="addView">Create new</h3>
+			<form role="form" ng-submit="save()">
+				<div>
+					<label>Module: {{currentVersion.label}}</label>
+				</div>
+				<div ng-show="editView">
+					<label>ID: {{element.id}}</label>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="stereotype" required>Stereotype:</label>
+					<select ng-options="stereotype.label for stereotype in stereotypes track by stereotype.id"
+							name="stereotype" id="stereotype" class="form-control" 
+							ng-model="element.stereotype">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="stereotype" required>Area:</label>
+					<select ng-options="area.name for area in areas|orderBy:'-name' track by area.id"
+							name="area" id="area" class="form-control" ng-model="element.area">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Name:</label>
+					<input type="text" class="form-control" id="name" name="name" required 
+						ng-model="element.name"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="sysname" required>Sysname:</label>
+					<input type="text" class="form-control" id="sysname" name="sysname" ng-pattern="regexSysname" required
+						ng-model="element.sysname"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="description" required>Description:</label>
+					<input type="text" class="form-control" id="description" name="description" ng-model="element.description"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="type" required>Type:</label>
+					<select ng-options="type.name for type in elementTypes track by type.id"
+							name="type" id="type" class="form-control" 
+							ng-model="element.type" ng-change="element.size=null;element.accuracy=null;">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;" ng-show="element.type.name=='string'||element.type.name=='numeric'">
+					<label for="size" required>Size:</label>
+					<input numbersOnly type="number" class="form-control" id="size" name="size" 
+						ng-model="element.size" />
+				</div>
+				<div class="form-group margin-form" style="width:300px;" ng-show="element.type.name=='numeric'">
+					<label for="accuracy" required>Accuracy:</label>
+					<input numbersOnly type="number" class="form-control" id="accuracy" name="accuracy" 
+						ng-model="element.accuracy" />
+				</div>
+				<div class="form-group margin-form" style="width:300px;" ng-show="element.type.name=='reference'">
+					<label for="referenceEntity" required>Reference entity:</label>
+					<table width="100%"><tr>
+						<td><i class="fa fa-search"></i></td>
+						<td><input type="text" class="form-control" id="searchEntity" name="searchEntity" 
+							ng-model="searchEntity" placeholder="Put entity name..."/></td></tr>
+					</table>
+					<select ng-options="entity.label for entity in entities|filter:searchEntity track by entity.id"
+							name="referenceEntity" id="referenceEntity" class="form-control" 
+							ng-model="element.referenceEntity">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;" ng-show="element.type.name=='structure'">
+					<label for="structure" required>Structure:</label>
+					<table width="100%"><tr>
+						<td><i class="fa fa-search"></i></td>
+						<td><input type="text" class="form-control" id="searchStructure" name="searchStructure" 
+							ng-model="searchStructure" placeholder="Put structure name..."/></td></tr>
+					</table>
+					<select ng-options="structure.label for structure in structures|filter:searchStructure track by structure.id"
+							name="structure" id="structure" class="form-control" 
+							ng-model="element.structure">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;" ng-show="element.type.name=='map'">
+					<label for="keyElement" required>Key element:</label>
+					<table width="100%"><tr>
+						<td><i class="fa fa-search"></i></td>
+						<td><input type="text" class="form-control" id="searchKeyElement" name="searchKeyElement" 
+							ng-model="searchKeyElement" placeholder="Put key element name..."/></td></tr>
+					</table>
+					<select ng-options="element.label for element in referenceElements|filter:searchKeyElement track by element.id"
+							name="keyElement" id="keyElement" class="form-control" 
+							ng-model="element.keyElement">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;" ng-show="element.type.name=='map'||element.type.name=='collection'">
+					<label for="valueElement" required>Value element:</label>
+					<table width="100%"><tr>
+						<td><i class="fa fa-search"></i></td>
+						<td><input type="text" class="form-control" id="searchValueElement" name="searchValueElement" 
+							ng-model="searchValueElement" placeholder="Put value element name..."/></td></tr>
+					</table>
+					<select ng-options="element.label for element in referenceElements|filter:searchValueElement track by element.id"
+							name="valueElement" id="valueElement" class="form-control" 
+							ng-model="element.valueElement">
+					</select>
+				</div>
+				<br/>
+				<div class="row form-group margin-form">
+					<div class="col-lg-6 text-right">
+						<button ng-click="show()" type="button" class="btn btn-success">
+							<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> Back</span>
+						</button>
+					</div>
+					<div class="col-lg-6 text-left">
+						<button type="submit" class="btn btn-success">
+							<span class="glyphicon glyphicon-saved" aria-hidden="true"> Save</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+    </div>
+</div>

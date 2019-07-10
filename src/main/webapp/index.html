@@ -1,0 +1,162 @@
+<!doctype html>
+<html ng-app="cometa">
+<head>
+  <meta charset="utf-8"/>
+  <title>co-Meta</title>
+	<style type="text/css">
+	[ng\:cloak], [ng-cloak], .ng-cloak {
+	  display: none !important;
+	}
+	</style>
+	<link rel="stylesheet" href="webjars/bootstrap/3.2.0/css/bootstrap.css"/>
+	<link rel="stylesheet" href="webjars/font-awesome/4.1.0/css/font-awesome.css"/>
+	<link rel="stylesheet" href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/styles.css"/>
+	<link rel="stylesheet" href="css/ngDialog.min.css">
+	<link rel="stylesheet" href="css/ngDialog-theme-default.min.css">
+	<link rel="stylesheet" href="css/jasmine.css">
+	<link rel="stylesheet" href="css/angular-ui-tree.min.css">
+
+	<script src="webjars/jquery/1.11.1/jquery.js"></script>
+	<script src="webjars/bootstrap/3.2.0/js/bootstrap.js"></script>
+	<script src="webjars/angularjs/1.5.0/angular.js"></script>
+	<script src="webjars/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+	<script src="webjars/angular-sanitize/1.2.16/angular-sanitize.js"></script>
+	<script src="js/lib/angular-bootstrap-confirm.js"></script>
+	<script src="js/lib/ngDialog.min.js"></script>
+	<script src="js/lib/angularjs-dropdown-multiselect.min.js"></script>
+	<script src="js/lib/FileSaver.min.js"></script>
+	<script src="js/lib/ui-bootstrap-tpls-0.14.3.js"></script>
+	<script src="js/lib/angular-animate.js"></script>
+	<script src="js/lib/angular-ui-tree.min.js"></script>
+	<script src="js/lib/smart-table.min.js"></script>
+	<script src="js/lib/angular-locale_ru-ru.js"></script>
+	<script src="js/flib.js"></script>
+	<script src="js/app.js"></script>
+    <script src="js/controllers/LoginController.js"></script>
+    <script src="js/controllers/DefaultController.js"></script>
+    <script src="js/controllers/ApplicationController.js"></script>
+    <script src="js/controllers/ModuleController.js"></script>
+    <script src="js/controllers/VersionController.js"></script>
+    <script src="js/controllers/DependencyController.js"></script>
+    <script src="js/controllers/StereotypeController.js"></script>
+    <script src="js/controllers/PlatformController.js"></script>
+    <script src="js/controllers/GeneratorController.js"></script>
+    <script src="js/controllers/ComponentController.js"></script>
+    <script src="js/controllers/PackageController.js"></script>
+    <script src="js/controllers/AreaController.js"></script>
+    <script src="js/controllers/ElementController.js"></script>
+    <script src="js/controllers/StructureController.js"></script>
+    <script src="js/controllers/EntityController.js"></script>
+    <script src="js/controllers/AssemblyController.js"></script>
+    <script src="js/controllers/DebugController.js"></script>
+	<script type="text/ng-template" id="popup">
+		<p><code>{{popupMessage}}</code></p>
+	</script>
+</head>
+
+<body ng-app="cometa">
+	<div ng-controller="LoginController" class="container">
+	    <nav class="navbar navbar-custom navbar-inverse navbar-fixed-top">
+	        <div class="container-fluid">
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	                    <span class="sr-only">Toggle navigation</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+	                <div style="margin:2px;">
+	                    <a href="/">
+	                        <img style="width:57px; height:46px;" alt="Brand" class="img-thumbnail" src="images/logo.jpeg"/>
+	                    </a>
+	                </div>
+	            </div>
+	            <div class="collapse navbar-collapse" id="myNavbar">
+	                <ul class="nav navbar-nav" role="tablist" ng-if="authenticated">
+						<li class="dropdown" ng-show="currentApplication==''">
+							<a href="" class="header dropdown-toggle navbarStyle" data-toggle="dropdown"
+							   role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Administration <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a class="header" ng-click="selectTab('Aplications')" href="#/admin/application">Applications</a></li>
+							</ul>
+						</li>
+						<li class="dropdown" ng-show="currentApplication">
+							<a href="" class="header dropdown-toggle navbarStyle" data-toggle="dropdown" role="button"
+							   aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Application <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a class="header" ng-click="selectTab('Modules')" href="#/app/module">Modules</a></li>
+								<li><a class="header" ng-click="selectTab('Versions')" href="#/app/version">Versions</a></li>
+								<li><a class="header" ng-click="selectTab('Dependencies')" href="#/app/dependency">Dependencies</a></li>
+								<li><a class="header" ng-click="selectTab('Stereotypes')" href="#/app/stereotype">Stereotypes</a></li>
+								<li><a class="header" ng-click="selectTab('Platforms')" href="#/app/platform">Platforms</a></li>
+								<li><a class="header" ng-click="selectTab('Packages')" href="#/app/package">Packages</a></li>
+								<li><a class="header" ng-click="selectTab('Components')" href="#/app/component">Components</a></li>
+							</ul>
+						</li>
+						<li class="dropdown" ng-show="currentApplication">
+							<a href="" class="header dropdown-toggle navbarStyle" data-toggle="dropdown" role="button"
+							   aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Data model <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a class="header" ng-click="selectTab('Areas')" href="#/model/area">Areas</a></li>
+								<li><a class="header" ng-click="selectTab('Data elements')" href="#/model/element">Data elements</a></li>
+								<li><a class="header" ng-click="selectTab('Structures')" href="#/model/structure">Structures</a></li>
+								<li><a class="header" ng-click="selectTab('Logical model')" href="#/model/entity">Logical model</a></li>
+							</ul>
+						</li>
+						<li class="dropdown" ng-show="currentApplication">
+							<a href="" class="header dropdown-toggle navbarStyle" data-toggle="dropdown" role="button"
+							   aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Building<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a class="header" ng-click="selectTab('Assemblies')" href="#/build/assembly">Assemblies</a></li>
+								<li><a class="header" ng-click="selectTab('Generators')" href="#/build/generator">Generators</a></li>
+								<li><a class="header" ng-click="selectTab('Debug')" href="#/build/debug">Debug</a></li>
+							</ul>
+						</li>
+						<li><a class="navbarStyle" style="text-decoration: underline;">{{menuName}}</a></li>
+	                </ul>
+	                <ul class="nav navbar-nav navbar-right" role="tablist">
+						<li ng-show="authenticated && currentApplication">
+							<a href="" ng-click="exit()" class="header navbarStyle"><span class="glyphicon glyphicon-home"></span> Exit from: {{currentApplication.name}}</a></li>
+						<li ng-show="authenticated"><a class="header navbarStyle"><span class="glyphicon glyphicon-user"></span> User: {{userName}}</a></li>
+						<li ng-hide="authenticated"><a href="#/login" class="header navbarStyle"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<li ng-click="selectTab('')" ng-show="authenticated">
+							<a href="" ng-click="logout()" class="header navbarStyle"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+	                </ul>
+	                
+	            </div>
+	        </div>
+	    </nav>
+	</div>
+	<div id="marginContainer">
+  		<div ui-view></div>
+	</div>
+    <div id="wrap">
+        <div class="navbar navbar-custom navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div class="collapse navbar-collapse collapse-centered">
+                    <a class="nav navbar-nav navbar-centered whiteBold"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script type="text/ng-template" id="group-template.html">
+		<div class="panel {{panelClass || 'panel-default'}}">
+			<div class="panel-heading">
+				<h4 class="panel-title" style="color:#fa39c3">
+					<a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading"><span
+							ng-class="{'text-muted': isDisabled}">{{heading}}</span></a>
+				</h4>
+			</div>
+			<div class="panel-collapse collapse" uib-collapse="!isOpen">
+				<div class="panel-body" style="text-align: right" ng-transclude></div>
+			</div>
+		</div>
+	</script>
+</body>
+</html>

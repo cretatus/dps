@@ -1,0 +1,82 @@
+<div class="jumbotron text-center">
+    <div class="container">
+    	
+    	<div ng-show="tableView" class="tableScroll">
+			<table width="100%">
+				<tr>
+					<td align="left"><h4>Modules:</h4></td>
+					<td align="right">
+			    		<button ng-click="add()" type="button" class="btn btn-success">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"> Add module</span>
+						</button>
+					</td>
+				</tr>
+			</table>
+			<p></p>
+			<table class="table table-striped table-bordered .table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Sysname</th>
+						<th>Description</th>
+						<th style="width:230px;">Command</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="module in modules">
+						<td>{{module.id}}</td>
+						<td>{{module.name}}</td>
+						<td>{{module.sysname}}</td>
+						<td>{{module.description}}</td>
+						<td width="160">
+							<button ng-click="edit(module)" type="button" class="btn btn-warning" data-tooltip="Edit">
+									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							</button>
+							<button ng-click="remove(module)" type="button" class="btn btn-danger" data-tooltip="Remove">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br/>
+		</div>
+		<div ng-show="addView || editView">
+			<h3 ng-show="editView">Edit</h3>
+			<h3 ng-show="addView">Create new</h3>
+			<form role="form" ng-submit="save()">
+				<div ng-show="editView">
+					<label>ID: {{module.id}}</label>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Name:</label>
+					<input type="text" class="form-control" id="name" name="name" required
+						ng-model="module.name"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Sysname:</label>
+					<input type="text" class="form-control" id="name" name="name" ng-pattern="regexSysname" required 
+						ng-model="module.sysname"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Description:</label>
+					<input type="text" class="form-control" id="name" name="name" ng-model="module.description"/>
+				</div>
+				<br/>
+				<div class="row form-group margin-form">
+					<div class="col-lg-6 text-right">
+						<button ng-click="show()" type="button" class="btn btn-success">
+							<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> Back</span>
+						</button>
+					</div>
+					<div class="col-lg-6 text-left">
+						<button type="submit" class="btn btn-success">
+							<span class="glyphicon glyphicon-saved" aria-hidden="true"> Save</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="jumbotron text-center">
+    <div class="container">
+    	
+    	<div class="tableScroll">
+			<table>
+				<tr>
+					<td align="left"><h4>Filter:</h4></td>
+					<td width="10"></td>
+					<td align="right">Module</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="version.label for version in versions|orderBy:'-name' track by version.id"
+								name="version" id="version" class="form-control" ng-model="currentVersion"
+								ng-change="read()">
+						</select>
+					</td>
+					<td width="10"></td>
+					<td align="right">Package</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="package.version.module.name+' ('+package.path+'): '+package.name for package in packages|orderBy:'path' track by package.id"
+								name="package" id="package" class="form-control" ng-model="search.pack">
+						</select>
+					</td>
+					<td width="10"></td>
+					<td align="right">Component</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="component.name for component in components|filter:search|orderBy:'path' track by component.id"
+								name="component" id="component" class="form-control" 
+								ng-model="component" ng-disabled="!search.pack.id" ng-change="reloadObjects()">
+						</select>
+					</td>
+					<td width="10"></td>
+					<td align="right">Object for generation</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="object.name for object in objects|orderBy:'name' track by object.id"
+								name="object" id="object" class="form-control" 
+								ng-model="object" ng-disabled="!component.id"  ng-change="refreshInspector()">
+						</select>
+					</td>
+				</tr>
+			</table>
+			<p></p>
+			<table>
+				<tr>
+				<td>
+					<table width="100%">
+						<tr>
+							<td><input type="file" file-model="importFile" class="btn btn-info" id="importFile" /></td>
+							<td>
+								<button ng-click="openFile()" type="button" class="btn btn-success" data-tooltip="Open file" ng-disabled="!importFile">
+									<span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+								</button>
+							</td>
+							<td align="right">
+					    		<button ng-click="generate()" type="button" class="btn btn-success">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"> Generate</span>
+								</button>
+							</td>
+						</tr>
+					</table>
+				</td>
+				</tr>
+				<tr>
+				<td>
+					<textarea  style="font:normal 14px 'Courier New';height:200px;" 
+						class="form-control" id="templateText" name="templateText" 
+						ng-model="templateText" ng-change="templateTextChange()"></textarea>
+				</td>
+				<td>
+					<table>
+						<tr>
+							<td>object</td>
+							<td>{{component.subtype.metaobject}}</td>
+						</tr>
+						<tr>
+							<td>id</td>
+							<td>{{object.id}}</td>
+						</tr>
+						<tr>
+							<td>name</td>
+							<td>{{object.name}}</td>
+						</tr>
+						<tr>
+							<td>sysname</td>
+							<td>{{object.sysname}}</td>
+						</tr>
+						<tr>
+							<td>description</td>
+							<td>{{object.description}}</td>
+						</tr>
+						<tr>
+							<td>stereotype</td>
+							<td>{{object.stereotype.name}}</td>
+						</tr>
+					</table>
+				</td>
+				</tr>
+				<tr>
+				<td align="left" colspan="2">
+					<p><font face="Courier New">{{resultText}}</font></p>
+				</td>
+				</tr>
+			</table>
+			<br/>
+		</div>
+    </div>
+</div>
