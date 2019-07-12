@@ -22,15 +22,15 @@ public class Component extends ApplicationNamedObject {
 	private Package pack;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "subtype_code", nullable = false)
-	private Subtype subtype;
+	@JoinColumn(name = "metatype_code", nullable = false)
+	private Metatype metatype;
 
-	public Subtype getSubtype() {
-		return subtype;
+	public Metatype getMetatype() {
+		return metatype;
 	}
 
-	public void setSubtype(Subtype subtype) {
-		this.subtype = subtype;
+	public void setMetatype(Metatype metatype) {
+		this.metatype = metatype;
 	}
 
 	public Package getPack() {

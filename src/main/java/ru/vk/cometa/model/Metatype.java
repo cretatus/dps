@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name="subtype")
-public class Subtype {
+@Table(name="metatype")
+public class Metatype {
 	public static final String PRIMARY = "pk";
 	public static final String UNIQUE = "uq";
 	public static final String INDEX = "index";

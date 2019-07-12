@@ -80,7 +80,7 @@ public class WriteController extends BaseService {
 		checkApplicationNamedObject(stereotype);
 		stereotype.setIsDefault((stereotype.getIsDefault() != null) && stereotype.getIsDefault());
 		if(stereotype.getIsDefault()) {
-			for(Stereotype s : stereotypeRepository.findByVersionAndSubtype(stereotype.getVersion(), stereotype.getSubtype())) {
+			for(Stereotype s : stereotypeRepository.findByVersionAndMetatype(stereotype.getVersion(), stereotype.getMetatype())) {
 				if(!s.getId().equals(stereotype.getId())) {
 					s.setIsDefault(false);
 					stereotypeRepository.save(s);

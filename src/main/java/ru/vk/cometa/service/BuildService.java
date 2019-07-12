@@ -90,7 +90,7 @@ public class BuildService extends BaseService{
 	
 	@SuppressWarnings("unchecked")
 	public List<ApplicationStereotypicalObject> selectObjectsByComponent(Component component){
-		String queryText = "select a from " + component.getSubtype().getMetaobject() + 
+		String queryText = "select a from " + component.getMetatype().getMetaobject() + 
 				" a where a.application = :application";
 		Query query = entityManager.createQuery(queryText);
 		query.setParameter("application", component.getApplication());
@@ -100,7 +100,7 @@ public class BuildService extends BaseService{
 	
 	@SuppressWarnings("unchecked")
 	public ApplicationStereotypicalObject selectObjectsByComponentAndId(Component component, Integer id) throws ManagedException{
-		String queryText = "select a from " + component.getSubtype().getMetaobject() + 
+		String queryText = "select a from " + component.getMetatype().getMetaobject() + 
 				" a where a.application = :application and a.id = :id";
 		Query query = entityManager.createQuery(queryText);
 		query.setParameter("application", component.getApplication());
@@ -110,7 +110,7 @@ public class BuildService extends BaseService{
 			return result.get(0);
 		}
 		else {
-			throw new ManagedException("The object " + component.getSubtype().getMetaobject() + " was not found");
+			throw new ManagedException("The object " + component.getMetatype().getMetaobject() + " was not found");
 		}
 	}
 	
@@ -125,7 +125,7 @@ public class BuildService extends BaseService{
 			Template temp = cfg.getTemplate(generator.getSysname());
 			for(ApplicationStereotypicalObject object : selectObjectsByComponent(component)) {
 				Map<String, Object> root = new HashMap<>();
-				root.put(component.getSubtype().getMetaobject(), object);
+				root.put(component.getMetatype().getMetaobject(), object);
 				FileOutputStream fileOutStream = new FileOutputStream(new File(packageDir, component.getSysname() + object.getSysname()));
 				OutputStreamWriter outWriter = new OutputStreamWriter(fileOutStream);
 				temp.process(root, outWriter);

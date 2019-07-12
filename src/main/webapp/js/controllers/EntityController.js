@@ -316,9 +316,9 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 		}
 	}
 	
-	$scope.findKey = function(subtypeCode){
+	$scope.findKey = function(metatypeCode){
 		for(var i=0; i<$scope.keys.length; i++){
-			if($scope.keys[i].subtypeCode == subtypeCode){
+			if($scope.keys[i].metatypeCode == metatypeCode){
 				return $scope.keys[i];
 			}
 		}
@@ -334,49 +334,49 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 		return null;
 	}
 	
-	$scope.findOrCreateKey = function(subtypeCode){
-		var key = $scope.findKey(subtypeCode);
+	$scope.findOrCreateKey = function(metatypeCode){
+		var key = $scope.findKey(metatypeCode);
 		if(!key){
 			key = {};
 			key.structure = {};
 			key.structure.attributes = [];
-			key.subtypeCode = subtypeCode;
-			key.name = $scope.entity.name + " " + subtypeCode.toUpperCase();
-			key.sysname = subtypeCode + "_" + $scope.entity.sysname + "_" + ($scope.keys.length + 1);
+			key.metatypeCode = metatypeCode;
+			key.name = $scope.entity.name + " " + metatypeCode.toUpperCase();
+			key.sysname = metatypeCode + "_" + $scope.entity.sysname + "_" + ($scope.keys.length + 1);
 			$scope.keys.push(key);
 		}
 		return key;
 	}
 	
-	$scope.attributChangeFlag = function(attribute, subtypeCode){
-		if(!$scope[subtypeCode].structure){
-			$scope[subtypeCode].structure = {};
+	$scope.attributChangeFlag = function(attribute, metatypeCode){
+		if(!$scope[metatypeCode].structure){
+			$scope[metatypeCode].structure = {};
 		}
-		$scope[subtypeCode].structure.attributes = [];
+		$scope[metatypeCode].structure.attributes = [];
 		for(var i=0; i<$scope.attributes.length; i++){
-			if($scope.attributes[i][subtypeCode]){
+			if($scope.attributes[i][metatypeCode]){
 				var detailAttribute = Object.assign({}, $scope.attributes[i]);
 				detailAttribute.id = null;
 				detailAttribute.parent = $scope.attributes[i];
-				$scope[subtypeCode].structure.attributes.push(detailAttribute);
+				$scope[metatypeCode].structure.attributes.push(detailAttribute);
 			}
 		}
-		if($scope[subtypeCode].structure.attributes.length > 0){
-			var key = $scope.findOrCreateKey(subtypeCode);
+		if($scope[metatypeCode].structure.attributes.length > 0){
+			var key = $scope.findOrCreateKey(metatypeCode);
 			key.structure.attributes = key.structure.attributes ? key.structure.attributes : [];
 			for(var i=key.structure.attributes.length-1; i>0; i--){
-				if(!$scope[subtypeCode].structure.attributes.find(function(a){return a.sysname == key.structure.attributes[i].sysname;})){
+				if(!$scope[metatypeCode].structure.attributes.find(function(a){return a.sysname == key.structure.attributes[i].sysname;})){
 					key.structure.attributes.splice(i, 1);
 				}
 			}
-			for(var i=0; i<$scope[subtypeCode].structure.attributes.length; i++){
-				if(!key.structure.attributes.find(function(a){return a.sysname == $scope[subtypeCode].structure.attributes[i].sysname;})){
-					key.structure.attributes.push($scope[subtypeCode].structure.attributes[i]);
+			for(var i=0; i<$scope[metatypeCode].structure.attributes.length; i++){
+				if(!key.structure.attributes.find(function(a){return a.sysname == $scope[metatypeCode].structure.attributes[i].sysname;})){
+					key.structure.attributes.push($scope[metatypeCode].structure.attributes[i]);
 				}
 			}
 		}
 		else {
-			var key = $scope.findKey(subtypeCode);
+			var key = $scope.findKey(metatypeCode);
 			if(key){
 				$scope.keys.splice($scope.keys.indexOf());
 			}
@@ -418,7 +418,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 		for(var i=0; i<$scope.keyAttributes.length; i++){
 			var attribute = $scope.findAttribute($scope.keyAttributes[i].parent.id);
 			var key = $scope.findKeyByStructure($scope.keyAttributes[i].structure.id);
-			attribute[key.subtypeCode] = true;
+			attribute[key.metatypeCode] = true;
 		}
 		for(var j=0; j<$scope.keys.length; j++){
 			$scope.keys[j].structure.attributes = [];

@@ -12,7 +12,7 @@ import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.MajorVersion;
 import ru.vk.cometa.model.Stereotype;
-import ru.vk.cometa.model.Subtype;
+import ru.vk.cometa.model.Metatype;
 import ru.vk.cometa.model.Version;
 
 @Service
@@ -149,14 +149,14 @@ public class ModuleService extends BaseService {
 	}
 	
 	public void createDefaultStereotypes(Version version, Application application) {
-		for(Subtype subtype : subtypeRepository.findAll()) {
+		for(Metatype metatype : metatypeRepository.findAll()) {
 			Stereotype stereotype = new Stereotype();
 			stereotype.setApplication(application);
 			stereotype.setDescription(null);
 			stereotype.setIsDefault(true);
-			stereotype.setSubtype(subtype);
-			stereotype.setName("Default " + subtype.getCode());
-			stereotype.setSysname("default_" + subtype.getCode());
+			stereotype.setMetatype(metatype);
+			stereotype.setName("Default " + metatype.getCode());
+			stereotype.setSysname("default_" + metatype.getCode());
 			stereotype.setVersion(version);
 			stereotypeRepository.save(stereotype);
 		}

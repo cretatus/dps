@@ -15,12 +15,12 @@
 						</select>
 					</td>
 					<td width="10"></td>
-					<td align="right">Subtype</td>
+					<td align="right">Metatype</td>
 					<td width="10"></td>
 					<td>
-						<select ng-options="subtype.label for subtype in subtypes|orderBy:'metaobject' track by subtype.code"
-								name="subtype" id="subtype" class="form-control" ng-model="search.subtype"
-								ng-change="search.subtype=search.subtype?search.subtype:{}">
+						<select ng-options="metatype.label for metatype in metatypes|orderBy:'metaobject' track by metatype.code"
+								name="metatype" id="metatype" class="form-control" ng-model="search.metatype"
+								ng-change="search.metatype=search.metatype?search.metatype:{}">
 								<option label="" value="" selected="selected">( All )</option>
 						</select>
 					</td>
@@ -42,7 +42,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Metaobject</th>
-						<th>Subtype</th>
+						<th>Metatype</th>
 						<th>Name</th>
 						<th>Sysname</th>
 						<th>Description</th>
@@ -50,10 +50,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="stereotype in stereotypes|filter:search|orderBy:'subtype.metaobject' ">
+					<tr ng-repeat="stereotype in stereotypes|filter:search|orderBy:'metatype.metaobject' ">
 						<td align="left">{{stereotype.id}}</td>
-						<td align="left">{{stereotype.subtype.metaobject}}</td>
-						<td align="left">{{stereotype.subtype.code}}</td>
+						<td align="left">{{stereotype.metatype.metaobject}}</td>
+						<td align="left">{{stereotype.metatype.code}}</td>
 						<td align="left">{{stereotype.name}}</td>
 						<td align="left">{{stereotype.sysname}}</td>
 						<td align="left">{{stereotype.description}}</td>
@@ -79,9 +79,9 @@
 					<label>ID: {{stereotype.id}}</label>
 				</div>
 				<div class="form-group margin-form" style="width:300px;">
-					<label>Subtype:</label>
-					<select ng-options="subtype.label for subtype in subtypes|orderBy:'metaobject' track by subtype.code" 
-							name="subtype" id="subtype" class="form-control" ng-model="stereotype.subtype">
+					<label>Metatype:</label>
+					<select ng-options="metatype.label for metatype in metatypes|orderBy:'metaobject' track by metatype.code" 
+							name="metatype" id="metatype" class="form-control" ng-model="stereotype.metatype">
 					</select>
 				</div>
 				<div class="form-group margin-form" style="width:300px;">

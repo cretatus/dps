@@ -22,15 +22,15 @@ public class Key extends ApplicationStereotypicalObject implements Detail{
 	@JoinColumn(name = "structure_id", nullable = false)
 	private Structure structure;
 
-	@Column(name = "subtype_code", nullable = false)
-	private String subtypeCode;
+	@Column(name = "metatype_code", nullable = false)
+	private String metatypeCode;
 
-	public String getSubtypeCode() {
-		return subtypeCode;
+	public String getMetatypeCode() {
+		return metatypeCode;
 	}
 
-	public void setSubtypeCode(String subtypeCode) {
-		this.subtypeCode = subtypeCode;
+	public void setMetatypeCode(String metatypeCode) {
+		this.metatypeCode = metatypeCode;
 	}
 
 	public AppEntity getEntity() {

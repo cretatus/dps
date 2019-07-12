@@ -2,6 +2,7 @@ package ru.vk.cometa.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ import ru.vk.cometa.repositories.PlatformRepository;
 import ru.vk.cometa.repositories.ResourceRepository;
 import ru.vk.cometa.repositories.StereotypeRepository;
 import ru.vk.cometa.repositories.StructureRepository;
-import ru.vk.cometa.repositories.SubtypeRepository;
+import ru.vk.cometa.repositories.MetatypeRepository;
 import ru.vk.cometa.repositories.UserRepository;
 import ru.vk.cometa.repositories.VersionRepository;
 import ru.vk.cometa.repositories.VersionedObjectRepository;
@@ -100,7 +101,7 @@ public class BaseService {
 	@Autowired
 	protected KeyRepository entityKeyRepository;
 	@Autowired
-	protected SubtypeRepository subtypeRepository;
+	protected MetatypeRepository metatypeRepository;
 	@Autowired
 	protected AssemblyRepository assemblyRepository;
 	@Autowired
@@ -130,6 +131,9 @@ public class BaseService {
 
 	public List<ApplicationNamedObject> selectValidObjects(VersionedObjectRepository repository, Principal principal){
 		Version currentVersion = getCurrentVersion(principal);
+		if(currentVersion == null) {
+			return new ArrayList<ApplicationNamedObject>();
+		}
 		List<ApplicationNamedObject> result = repository.findByVersion(currentVersion);
 		for(Dependency dependency : dependencyRepository.findByDependentVersion(currentVersion)) {
 			List<ApplicationNamedObject> list = repository.findByVersion(dependency.getInfluencerVersion());

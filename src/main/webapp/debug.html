@@ -73,7 +73,7 @@
 					<table>
 						<tr>
 							<td>object</td>
-							<td>{{component.subtype.metaobject}}</td>
+							<td>{{component.metatype.metaobject}}</td>
 						</tr>
 						<tr>
 							<td>id</td>
@@ -100,7 +100,9 @@
 				</tr>
 				<tr>
 				<td align="left" colspan="2">
-					<p><font face="Courier New">{{resultText}}</font></p>
+					<textarea  style="font:normal 14px 'Courier New';height:200px;" 
+						class="form-control" id="templateText" name="templateText" 
+						ng-model="resultText" readonly ></textarea>
 				</td>
 				</tr>
 			</table>

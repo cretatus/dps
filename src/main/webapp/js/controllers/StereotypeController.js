@@ -17,7 +17,7 @@ stereotypeController.controller('StereotypeController', function ($scope, $http,
 		$scope.tableView = false;
 		$scope.stereotype={};
 		if($scope.search){
-			$scope.stereotype.subtype=$scope.subtype;
+			$scope.stereotype.metatype=$scope.metatype;
 		}
 	}
 	
@@ -90,9 +90,9 @@ stereotypeController.controller('StereotypeController', function ($scope, $http,
 	}
 	
 	$scope.boot = function(){
-		$http.get('/read/subtypes')
+		$http.get('/read/metatypes')
 		.success(function(data, status, headers, config) {
-			$scope.subtypes = data;
+			$scope.metatypes = data;
 		})
 		.error(function(data, status, headers, config) {
 			$scope.popupMessage = data.message;

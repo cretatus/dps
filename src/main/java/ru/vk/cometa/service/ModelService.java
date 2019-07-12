@@ -16,7 +16,7 @@ import ru.vk.cometa.model.Element;
 import ru.vk.cometa.model.Key;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
-import ru.vk.cometa.model.Subtype;
+import ru.vk.cometa.model.Metatype;
 
 @Service
 @Transactional(rollbackFor=Exception.class)
@@ -33,7 +33,7 @@ public class ModelService extends BaseService{
 				else {
 					element.copyFrom(attribute);
 					element.setArea(attribute.getStructure().getArea());
-					element.setStereotype(stereotypeRepository.findDefault(attribute.getVersion(), Subtype.ELEMENT));
+					element.setStereotype(stereotypeRepository.findDefault(attribute.getVersion(), Metatype.ELEMENT));
 					element.setVersion(attribute.getVersion());
 					checkApplicationStereotypicalObject(element);
 					attribute.setElement(elementRepository.save(element));
@@ -133,9 +133,9 @@ public class ModelService extends BaseService{
 		entity.getStructure().setName(entity.getName());
 		entity.getStructure().setSysname(entity.getSysname());
 		Structure parentStructure = modelService.saveStructure(entity.getStructure());
-		Stereotype structureStereotype = stereotypeRepository.findDefault(entity.getVersion(), Subtype.KEY_STRUCTURE);
+		Stereotype structureStereotype = stereotypeRepository.findDefault(entity.getVersion(), Metatype.KEY_STRUCTURE);
 		for(Key key : entity.getKeys()) {
-			key.setStereotype(stereotypeRepository.findDefault(entity.getVersion(), key.getSubtypeCode()));
+			key.setStereotype(stereotypeRepository.findDefault(entity.getVersion(), key.getMetatypeCode()));
 			key.setApplication(entity.getApplication());
 			key.setVersion(entity.getVersion());
 			key.setEntity(entity);

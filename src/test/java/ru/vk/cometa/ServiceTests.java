@@ -22,17 +22,17 @@ import org.mockito.stubbing.Answer;
 
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.AppModule;
-import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.MajorVersion;
+import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Version;
-import ru.vk.cometa.repositories.ModuleRepository;
 import ru.vk.cometa.repositories.ApplicationRepository;
 import ru.vk.cometa.repositories.DependencyRepository;
 import ru.vk.cometa.repositories.MajorVersionRepository;
+import ru.vk.cometa.repositories.MetatypeRepository;
+import ru.vk.cometa.repositories.ModuleRepository;
 import ru.vk.cometa.repositories.PlatformRepository;
 import ru.vk.cometa.repositories.StereotypeRepository;
-import ru.vk.cometa.repositories.SubtypeRepository;
 import ru.vk.cometa.repositories.UserRepository;
 import ru.vk.cometa.repositories.VersionRepository;
 import ru.vk.cometa.service.ModuleService;
@@ -56,7 +56,7 @@ public class ServiceTests {
 	@Mock
 	protected StereotypeRepository stereotypeRepository;
 	@Mock
-	protected SubtypeRepository subtypeRepository;
+	protected MetatypeRepository metatypeRepository;
 	@Mock
 	protected PlatformRepository platformRepository;
 
@@ -68,12 +68,12 @@ public class ServiceTests {
 		moduleService = new ModuleServiceMock(userRepository, applicationRepository,
 				moduleRepository, majorVersionRepository,
 				versionRepository, dependencyRepository,
-				stereotypeRepository, subtypeRepository,
+				stereotypeRepository, metatypeRepository,
 				platformRepository);
 		packageService = new PackageServiceMock(userRepository, applicationRepository,
 				moduleRepository, majorVersionRepository,
 				versionRepository, dependencyRepository,
-				stereotypeRepository, subtypeRepository,
+				stereotypeRepository, metatypeRepository,
 				platformRepository);
 	}
 	

@@ -103,9 +103,9 @@ componentController.controller('ComponentController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/subtypes')
+		$http.get('/read/metatypes')
 		.success(function(data, status, headers, config) {
-			$scope.subtypes = data;
+			$scope.metatypes = data;
 		})
 		.error(function(data, status, headers, config) {
 			$scope.popupMessage = data.message;

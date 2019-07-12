@@ -15,18 +15,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Stereotype extends ApplicationNamedObject{
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "subtype_code", nullable = false)
-	private Subtype subtype;
+	@JoinColumn(name = "metatype_code", nullable = false)
+	private Metatype metatype;
 
 	@Column(name = "is_default", nullable = false)
 	private Boolean isDefault;
 	
-	public Subtype getSubtype() {
-		return subtype;
+	public Metatype getMetatype() {
+		return metatype;
 	}
 
-	public void setSubtype(Subtype subtype) {
-		this.subtype = subtype;
+	public void setMetatype(Metatype metatype) {
+		this.metatype = metatype;
 	}
 
 	public Boolean getIsDefault() {

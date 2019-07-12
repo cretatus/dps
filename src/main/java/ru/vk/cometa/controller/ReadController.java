@@ -28,7 +28,7 @@ import ru.vk.cometa.model.MajorVersion;
 import ru.vk.cometa.model.Resource;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
-import ru.vk.cometa.model.Subtype;
+import ru.vk.cometa.model.Metatype;
 import ru.vk.cometa.model.Version;
 
 @RestController
@@ -92,10 +92,10 @@ public class ReadController extends BaseService {
 		return dependencyRepository.findByDependentVersion(getCurrentVersion(principal));
 	}
 
-	@RequestMapping(value = "subtypes", method = RequestMethod.GET)
-	public List<Subtype> getSubtypes(Principal principal) throws ManagedException {
+	@RequestMapping(value = "metatypes", method = RequestMethod.GET)
+	public List<Metatype> getMetatypes(Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
-		return subtypeRepository.findAll();
+		return metatypeRepository.findAll();
 	}
 	@RequestMapping(value = "element_types", method = RequestMethod.GET)
 	public List<ElementType> getElementTypes(Principal principal) throws ManagedException {
@@ -128,13 +128,13 @@ public class ReadController extends BaseService {
 		return selectValidObjects(structureRepository, principal);
 	}
 	@RequestMapping(value = "stereotypes_lookup", method = RequestMethod.POST)
-	public List<ApplicationNamedObject> getStereotypesLookup(@RequestBody String subtypeCode, Principal principal) throws ManagedException {
+	public List<ApplicationNamedObject> getStereotypesLookup(@RequestBody String metatypeCode, Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
 		List<ApplicationNamedObject> result = selectValidObjects(stereotypeRepository, principal);
 		List<ApplicationNamedObject> removingList = new ArrayList<ApplicationNamedObject>();
 		for(ApplicationNamedObject object : result) {
 			Stereotype stereotype = (Stereotype)object;
-			if(!stereotype.getSubtype().getCode().equals(subtypeCode)) {
+			if(!stereotype.getMetatype().getCode().equals(metatypeCode)) {
 				removingList.add(object);
 			}
 		}
@@ -148,7 +148,7 @@ public class ReadController extends BaseService {
 		List<ApplicationNamedObject> removingList = new ArrayList<ApplicationNamedObject>();
 		for(ApplicationNamedObject object : result) {
 			Stereotype stereotype = (Stereotype)object;
-			if(!stereotype.getSubtype().getMetaobject().equals(metaobject)) {
+			if(!stereotype.getMetatype().getMetaobject().equals(metaobject)) {
 				removingList.add(object);
 			}
 		}
