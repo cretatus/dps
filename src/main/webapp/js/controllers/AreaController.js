@@ -27,7 +27,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
 
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -39,7 +39,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('/read/areas')
+		$http.get('read/areas')
 		.success(function(data, status, headers, config) {
             $scope.areas = data;
 		})
@@ -50,7 +50,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
 	}
 	
 	$scope.save = function(){
-		$http.post('/save/area', $scope.area)
+		$http.post('save/area', $scope.area)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -70,7 +70,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/area', area)
+        		$http.post('remove/area', area)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -86,7 +86,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
 	}
 	
 	$scope.boot = function(){
-		$http.post('/read/stereotypes_lookup', 'area')
+		$http.post('read/stereotypes_lookup', 'area')
 		.success(function(data, status, headers, config) {
 			$scope.stereotypes = data;
 		})
@@ -94,7 +94,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -102,7 +102,7 @@ areaController.controller('AreaController', function ($scope, $http, ngDialog, $
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.show();

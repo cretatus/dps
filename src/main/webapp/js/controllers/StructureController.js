@@ -51,7 +51,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 	
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -65,7 +65,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 	$scope.readAttributes = function(){
 		if(!$scope.currentVersion) return;
 		if(!$scope.structure) return;
-		$http.post('/read/attributes', $scope.structure)
+		$http.post('read/attributes', $scope.structure)
 		.success(function(data, status, headers, config) {
             $scope.attributes = data;
 		})
@@ -77,7 +77,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('/read/structures')
+		$http.get('read/structures')
 		.success(function(data, status, headers, config) {
             $scope.structures = data;
 		})
@@ -85,7 +85,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/areas_lookup')
+		$http.get('read/areas_lookup')
 		.success(function(data, status, headers, config) {
             $scope.areas = data;
 		})
@@ -93,7 +93,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/stereotypes_lookup_by_metaobject', 'Structure')
+		$http.post('read/stereotypes_lookup_by_metaobject', 'Structure')
 		.success(function(data, status, headers, config) {
             $scope.stereotypes = data;
 		})
@@ -101,7 +101,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/stereotypes_lookup', 'attribute')
+		$http.post('read/stereotypes_lookup', 'attribute')
 		.success(function(data, status, headers, config) {
             $scope.attributeStereotypes = data;
 		})
@@ -109,7 +109,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/elements_lookup')
+		$http.get('read/elements_lookup')
 		.success(function(data, status, headers, config) {
             $scope.elements = data;
 		})
@@ -121,7 +121,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 
 	$scope.save = function(){
 		$scope.structure.attributes = $scope.attributes;
-		$http.post('/save/structure', $scope.structure)
+		$http.post('save/structure', $scope.structure)
 		.success(function(data, status, headers, config){
 			$scope.popupMessage = 'Done';
 			ngDialog.open({template: 'popup', scope: $scope});
@@ -150,7 +150,7 @@ structureController.controller('StructureController', function ($scope, $http, n
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/structure', structure)
+        		$http.post('remove/structure', structure)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -187,7 +187,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 	}
 	
 	$scope.boot = function(){
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -195,7 +195,7 @@ structureController.controller('StructureController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.show();

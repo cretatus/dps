@@ -4,7 +4,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 	
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -17,7 +17,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('/read/packages_lookup')
+		$http.get('read/packages_lookup')
 		.success(function(data, status, headers, config) {
             $scope.packages = data;
 		})
@@ -25,7 +25,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/components_lookup')
+		$http.get('read/components_lookup')
 		.success(function(data, status, headers, config) {
             $scope.components = data;
 		})
@@ -40,7 +40,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 		$scope.component = {};
 		$scope.object = {};
 		$scope.resultText = "None";
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -48,7 +48,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.readLookups();
@@ -61,7 +61,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 
 	$scope.reloadObjects = function(){
 		if(!$scope.component) return;
-		$http.post('/read/objects_by_component', $scope.component)
+		$http.post('read/objects_by_component', $scope.component)
 		.success(function(data, status, headers, config) {
 			$scope.objects = data;
 		})
@@ -97,7 +97,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 		p["componentId"] = $scope.component.id;
 		p["objectId"] = $scope.object.id;
 		p["templateText"] = $scope.templateText;
-		$http.post('/operation/generate_template', p)
+		$http.post('operation/generate_template', p)
 		.success(function(data, status, headers, config) {
 			$scope.resultText = data.resultText;
 		})

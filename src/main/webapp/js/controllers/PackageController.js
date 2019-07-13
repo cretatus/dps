@@ -27,7 +27,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
 
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -39,7 +39,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('/read/packages')
+		$http.get('read/packages')
 		.success(function(data, status, headers, config) {
             $scope.packages = data;
 		})
@@ -50,7 +50,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
 	}
 	
 	$scope.save = function(){
-		$http.post('/save/package', $scope.pack)
+		$http.post('save/package', $scope.pack)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -70,7 +70,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/package', pack)
+        		$http.post('remove/package', pack)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -86,7 +86,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
 	}
 	
 	$scope.boot = function(){
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -94,7 +94,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.show();

@@ -9,7 +9,7 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
                 $rootScope.authority = data.authorities["0"].authority;
                 $rootScope.authenticated = true;
                 $rootScope.userName = data.name;
-            	$http.get('/read/current_application').success(function(data) {
+            	$http.get('read/current_application').success(function(data) {
             		$rootScope.currentApplication = data;
             	}).error(function() {
 	                $rootScope.authenticated = false;
@@ -39,7 +39,7 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
             authenticate(function() {
                 if ($rootScope.authenticated) {
                     $scope.error = false;
-                	$location.path("/admin");
+                	$location.path("admin");
                 } else {
                     $rootScope.badTip = 'Bad credentials';
                     $scope.error = true;
@@ -65,9 +65,9 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
     $scope.credentials = {};
 
 	$scope.exit = function(){
-		$http.get('/operation/exit_application')
+		$http.get('operation/exit_application')
 		.success(function () {
-			$window.location = '/#/admin';
+			$window.location = '#/admin';
 			$window.location.reload();
 		})
 		.error(function (data) {

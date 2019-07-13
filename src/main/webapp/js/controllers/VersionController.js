@@ -55,10 +55,10 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
 		$scope.majorVersions=[];
 		$scope.minorVersion={};
 		$scope.minorVersions=[];
-		$http.get('/read/modules')
+		$http.get('read/modules')
 		.success(function(data, status, headers, config) {
             $scope.modules = data;
-    		$http.get('/read/current_version')
+    		$http.get('read/current_version')
     		.success(function(data, status, headers, config) {
     			$scope.module = data.module;
     			$scope.show(0);
@@ -77,7 +77,7 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
 	$scope.read = function(index){
 		if(!$scope.module.id) return;
 		$scope.index = index;
-		$http.post('/read/major_versions', $scope.module)
+		$http.post('read/major_versions', $scope.module)
 		.success(function(data, status, headers, config) {
             $scope.majorVersions = data;
             if($scope.index == 0){
@@ -88,7 +88,7 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/minor_versions', $scope.module)
+		$http.post('read/minor_versions', $scope.module)
 		.success(function(data, status, headers, config) {
             $scope.minorVersions = data;
 		})
@@ -100,7 +100,7 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
 
 	$scope.saveMajor = function(){
 		$scope.majorVersion.module = $scope.module;
-		$http.post('/save/major_version', $scope.majorVersion)
+		$http.post('save/major_version', $scope.majorVersion)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -115,7 +115,7 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
 	$scope.saveMinor = function(){
 		$scope.minorVersion.module = $scope.module;
 		$scope.minorVersion.majorVersion = $scope.majorVersion;
-		$http.post('/save/minor_version', $scope.minorVersion)
+		$http.post('save/minor_version', $scope.minorVersion)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -135,7 +135,7 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/major_version', majorVersion)
+        		$http.post('remove/major_version', majorVersion)
     			.success(function (data, status, headers, config) {
     				$scope.majorVersion = {};
     				$scope.popupMessage = 'Done';
@@ -159,7 +159,7 @@ versionController.controller('VersionController', function ($scope, $http, ngDia
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/minor_version', minorVersion)
+        		$http.post('remove/minor_version', minorVersion)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});

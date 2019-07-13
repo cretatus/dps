@@ -62,7 +62,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 	
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -77,13 +77,13 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 		if(!$scope.currentVersion) return;
 		if(!$scope.entity) return;
 		if(!$scope.entity.structure) return;
-		$http.post('/read/attributes', $scope.entity.structure)
+		$http.post('read/attributes', $scope.entity.structure)
 		.success(function(data, status, headers, config) {
             $scope.attributes = data;
-    		$http.post('/read/key_atributes', $scope.entity)
+    		$http.post('read/key_atributes', $scope.entity)
     		.success(function(data, status, headers, config) {
                 $scope.keyAttributes = data;
-                $http.post('/read/keys', $scope.entity)
+                $http.post('read/keys', $scope.entity)
         		.success(function(data, status, headers, config) {
                     $scope.keys = data;
                    	$scope.pk=$scope.findKey('pk') ? $scope.findOrCreateKey('pk') : {};
@@ -109,7 +109,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('/read/entities')
+		$http.get('read/entities')
 		.success(function(data, status, headers, config) {
             $scope.entities = data;
 		})
@@ -117,7 +117,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/areas_lookup')
+		$http.get('read/areas_lookup')
 		.success(function(data, status, headers, config) {
             $scope.areas = data;
 		})
@@ -125,7 +125,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/stereotypes_lookup', 'entity')
+		$http.post('read/stereotypes_lookup', 'entity')
 		.success(function(data, status, headers, config) {
             $scope.stereotypes = data;
 		})
@@ -133,7 +133,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/stereotypes_lookup', 'entity structure')
+		$http.post('read/stereotypes_lookup', 'entity structure')
 		.success(function(data, status, headers, config) {
             $scope.structureStereotypes = data;
 		})
@@ -141,7 +141,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/stereotypes_lookup', 'attribute')
+		$http.post('read/stereotypes_lookup', 'attribute')
 		.success(function(data, status, headers, config) {
             $scope.attributeStereotypes = data;
 		})
@@ -149,7 +149,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/elements_lookup')
+		$http.get('read/elements_lookup')
 		.success(function(data, status, headers, config) {
             $scope.elements = data;
 		})
@@ -157,7 +157,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/structures_lookup')
+		$http.get('read/structures_lookup')
 		.success(function(data, status, headers, config) {
             $scope.structures = data;
 		})
@@ -174,7 +174,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 		$scope.entity.structure.stereotype = $scope.entity.structureStereotype;
 		$scope.entity.structure.attributes = $scope.attributes;
 		$scope.entity.keys = $scope.keys;
-		$http.post('/save/entity', $scope.entity)
+		$http.post('save/entity', $scope.entity)
 		.success(function(data, status, headers, config){
 			$scope.popupMessage = 'Done';
 			ngDialog.open({template: 'popup', scope: $scope});
@@ -232,7 +232,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/entity', entity)
+        		$http.post('remove/entity', entity)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -269,7 +269,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 	}
 	
 	$scope.boot = function(){
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -277,7 +277,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.show();
@@ -286,7 +286,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/element_types')
+		$http.get('read/element_types')
 		.success(function(data, status, headers, config) {
 			$scope.elementTypes = data;
 		})

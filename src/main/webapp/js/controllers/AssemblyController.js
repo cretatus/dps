@@ -43,7 +43,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/operation/build_assembly', assembly)
+        		$http.post('operation/build_assembly', assembly)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -58,7 +58,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
 	}
 	
 	$scope.read = function(){
-		$http.get('/read/assemblies')
+		$http.get('read/assemblies')
 		.success(function(data, status, headers, config) {
             $scope.assemblies = data;
 		})
@@ -66,7 +66,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/builds')
+		$http.get('read/builds')
 		.success(function(data, status, headers, config) {
             $scope.builds = data;
 		})
@@ -77,7 +77,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
 	}
 
 	$scope.saveAssembly = function(){
-		$http.post('/save/assembly', $scope.assembly)
+		$http.post('save/assembly', $scope.assembly)
 		.success(function(data, status, headers, config){
 			$scope.popupMessage = 'Done';
 			ngDialog.open({template: 'popup', scope: $scope});
@@ -132,7 +132,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/assembly', assembly)
+        		$http.post('remove/assembly', assembly)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -162,7 +162,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
 	}
 
 	$scope.boot = function(){
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 			$scope.show();
@@ -171,7 +171,7 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/dependency_influencers')
+		$http.get('read/dependency_influencers')
 		.success(function(data, status, headers, config) {
 			$scope.influencers = data;
 		})

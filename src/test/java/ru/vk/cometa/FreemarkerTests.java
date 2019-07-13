@@ -20,7 +20,7 @@ public class FreemarkerTests {
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
 		Map<String, Object> root = new HashMap<>();
 		root.put("tableName", "Freemarker");
-		cfg.setDirectoryForTemplateLoading(new File("C:/Projects/workspace/cometa/src/main/resources/"));
+		cfg.setDirectoryForTemplateLoading(new File("C:/Projects/workspace/co-meta/src/main/resources/"));
 		Template temp = cfg.getTemplate("test.ftl");
 		// Writer out = new OutputStreamWriter(System.out);
 		StringWriter out = new StringWriter();

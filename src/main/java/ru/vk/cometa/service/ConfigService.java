@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@PropertySource("config.properties")
+@PropertySource("classpath:/co-meta-config.properties")
 public class ConfigService {
 	@Autowired
 	Environment env;

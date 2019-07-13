@@ -24,7 +24,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		$scope.editView = true;
 		$scope.tableView = false;
 		$scope.generator=generator;
-		$http.post('/read/resource', generator.resourceId)
+		$http.post('read/resource', generator.resourceId)
 		.success(function(data, status, headers, config) {
 			$scope.templateText = data.text;
 		})
@@ -36,7 +36,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -49,7 +49,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('/read/generators')
+		$http.get('read/generators')
 		.success(function(data, status, headers, config) {
             $scope.generators = data;
 		})
@@ -57,7 +57,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/platforms_lookup')
+		$http.get('read/platforms_lookup')
 		.success(function(data, status, headers, config) {
             $scope.platforms = data;
 		})
@@ -65,7 +65,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('/read/stereotypes_lookup', 'generator')
+		$http.post('read/stereotypes_lookup', 'generator')
 		.success(function(data, status, headers, config) {
             $scope.stereotypes = data;
 		})
@@ -114,7 +114,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		fd.append('file', $scope.importFile);
 		fd.append('parameters', JSON.stringify({resourceId: $scope.generator.resource.id}));
 
-		$http.post("/upload/file_upload", fd, {
+		$http.post("upload/file_upload", fd, {
 			transformRequest : angular.identity,
 			headers : {'Content-Type' : undefined}}
 			)
@@ -135,7 +135,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		fd.append('text', $scope.templateText);
 		fd.append('parameters', JSON.stringify({resourceId: $scope.generator.resource.id}));
 
-		$http.post("/upload/text_upload", fd, {
+		$http.post("upload/text_upload", fd, {
 			transformRequest : angular.identity,
 			headers : {'Content-Type' : undefined}}
 			)
@@ -152,7 +152,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	}
 
 	$scope.saveGenerator = function(){
-		$http.post('/save/generator', $scope.generator)
+		$http.post('save/generator', $scope.generator)
 		.success(function(data, status, headers, config){
 			$scope.popupMessage = 'Done';
 			ngDialog.open({template: 'popup', scope: $scope});
@@ -172,7 +172,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/generator', generator)
+        		$http.post('remove/generator', generator)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -188,7 +188,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	}
 	
 	$scope.boot = function(){
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -196,7 +196,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.show();

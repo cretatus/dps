@@ -26,7 +26,7 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 	}
 	
 	$scope.read = function(){
-		$http.get('/read/applications_by_owner')
+		$http.get('read/applications_by_owner')
 			.success(function(data, status, headers, config) {
 	            $scope.applications = data;
 			})
@@ -38,9 +38,9 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 
 	$scope.save = function(){
 
-		$http.post('/save/application', $scope.application)
+		$http.post('save/application', $scope.application)
 			.success(function(data, status, headers, config){
-				$scope.popupMessage = 'Успешно сохранено';
+				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
 				$scope.show();
 			})
@@ -51,16 +51,16 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 	}
 
 	$scope.remove = function(application){
-        $scope.confirmMessage = "Удалить приложение?";
+        $scope.confirmMessage = "Remove application?";
         ngDialog.openConfirm({
             template: 'confirm_form.html',
             className: 'ngdialog-theme-default custom-width',
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/application', application)
+        		$http.post('remove/application', application)
     			.success(function (data, status, headers, config) {
-    				$scope.popupMessage = 'Успешно удалено';
+    				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
     				$scope.show();
     			})
@@ -74,10 +74,9 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 	}
 	
 	$scope.enter = function(application){
-		$http.post('/operation/select_application', application)
+		$http.post('operation/select_application', application)
 		.success(function (data, status, headers, config) {
-			// $location.path('/app');
-			$window.location = '/#/app';
+			$window.location = '#/app';
 			$window.location.reload();
 		})
 		.error(function (data, status, headers, config) {

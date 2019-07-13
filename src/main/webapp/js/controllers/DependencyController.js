@@ -43,7 +43,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 	
 	$scope.boot = function(){
 		$scope.module={};
-		$http.get('/read/versions')
+		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
 		})
@@ -51,7 +51,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/current_version')
+		$http.get('read/current_version')
 		.success(function(data, status, headers, config) {
 			$scope.currentVersion = data;
 			$scope.show();
@@ -64,7 +64,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 
 	$scope.read = function(){
 		if(!$scope.currentVersion) return;
-		$http.post('/save/current_version', $scope.currentVersion)
+		$http.post('save/current_version', $scope.currentVersion)
 		.success(function(data, status, headers, config) {
 			$scope.readLookups();
 		})
@@ -76,7 +76,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion || !$scope.currentVersion.id) return;
-		$http.get('/read/dependencies_by_influencer_version')
+		$http.get('read/dependencies_by_influencer_version')
 		.success(function(data, status, headers, config) {
             $scope.dependents = data;
 		})
@@ -84,7 +84,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/dependencies_by_dependent_version')
+		$http.get('read/dependencies_by_dependent_version')
 		.success(function(data, status, headers, config) {
             $scope.influencers = data;
 		})
@@ -92,7 +92,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('/read/modules')
+		$http.get('read/modules')
 		.success(function(data, status, headers, config) {
 			$scope.modules = data;
 		})
@@ -103,7 +103,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
 	}
 	
 	$scope.saveDependency = function(){
-		$http.post('/save/dependency', $scope.dependency)
+		$http.post('save/dependency', $scope.dependency)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -123,7 +123,7 @@ dependencyController.controller('DependencyController', function ($scope, $http,
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/dependency', dependency)
+        		$http.post('remove/dependency', dependency)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});

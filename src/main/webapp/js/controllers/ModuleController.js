@@ -26,7 +26,7 @@ moduleController.controller('ModuleController', function ($scope, $http, ngDialo
 	}
 	
 	$scope.read = function(){
-		$http.get('/read/modules')
+		$http.get('read/modules')
 			.success(function(data, status, headers, config) {
 	            $scope.modules = data;
 			})
@@ -37,7 +37,7 @@ moduleController.controller('ModuleController', function ($scope, $http, ngDialo
 	}
 
 	$scope.save = function(){
-		$http.post('/save/module', $scope.module)
+		$http.post('save/module', $scope.module)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Успешно сохранено';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -57,7 +57,7 @@ moduleController.controller('ModuleController', function ($scope, $http, ngDialo
             scope: $scope
         }).then(
         	function () {
-        		$http.post('/remove/module', module)
+        		$http.post('remove/module', module)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Успешно удалено';
     				ngDialog.open({template: 'popup', scope: $scope});
