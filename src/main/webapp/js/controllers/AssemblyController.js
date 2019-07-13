@@ -190,5 +190,38 @@ assemblyController.controller('AssemblyController', function ($scope, $http, ngD
         $scope.selectedRow = index;
 	}
 	
+	$scope.downloadBuild = function(build, count){
+		$scope.showAjaxLoader = true;
+		if(count === 21)
+		{
+			$scope.popupMessage = 'Timed out';
+			ngDialog.open({template: 'popup',scope: $scope});
+			$scope.showAjaxLoader = false;
+			return;
+		}
+		$http({
+			url: 'operation/download_build_files',
+			method: 'POST',
+			responseType: 'arraybuffer',
+			data: build,
+			headers: {'Content-type': 'application/json','Accept': 'application/zip'}
+		})
+			.success(function (data, status, headers, config) {
+				console.log(data);
+				if (data === null || data === undefined || data.byteLength === 0)
+					$scope.downloadBuild(build, count + 1);
+				else {
+					var blob = new Blob([data], {type: "application/zip"});
+					saveAs(blob, build.label + '.zip');
+					$scope.showAjaxLoader = false;
+				}
+			})
+			.error(function (data, status, headers, config) {
+				$scope.popupMessage = data.message;
+				ngDialog.open({template: 'popup',scope: $scope});
+				$scope.showAjaxLoader = false;
+			});
+	}
+	
 	$scope.boot();
 });

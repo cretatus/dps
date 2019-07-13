@@ -182,7 +182,8 @@ public class BuildService extends BaseService{
 		File assemblyDir = findOrCreateDir(appDir, "assembly_" + assembly.getSysname());
 		File buildDir = findOrCreateDir(assemblyDir, "build_" + build.getNumber());
 		processPackages(findRootPackages(assembly), buildDir);
+		build.setPath(buildDir.getAbsolutePath());
+		buildRepository.save(build);
 	}
-	
 	
 }

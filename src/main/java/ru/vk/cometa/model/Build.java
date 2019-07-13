@@ -28,6 +28,32 @@ public class Build extends ApplicationObject{
 	@JoinColumn(name = "assembly_id", nullable = true)
 	private Assembly assembly;
 
+	@Column(name = "path", nullable = false)
+	private String path;
+
+	public String getLabel() {
+		return getAssembly().getApplication().getSysname() + "." + getAssembly().getSysname() + "." + getNumber();
+	}
+
+	public void setLabel(String label) {
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Assembly getAssembly() {
 		return assembly;
 	}

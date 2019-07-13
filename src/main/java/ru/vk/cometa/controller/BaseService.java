@@ -49,6 +49,7 @@ import ru.vk.cometa.service.ModelService;
 import ru.vk.cometa.service.ModuleService;
 import ru.vk.cometa.service.PackageService;
 import ru.vk.cometa.service.ValidationService;
+import ru.vk.cometa.service.ZipUtil;
 
 public class BaseService {
 	@Autowired
@@ -63,6 +64,8 @@ public class BaseService {
 	protected BuildService buildService;
 	@Autowired
 	protected ConfigService config;
+	@Autowired
+	protected ZipUtil zipUtil;
 
 	@Autowired
 	protected UserRepository userRepository;
