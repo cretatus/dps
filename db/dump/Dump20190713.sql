@@ -329,7 +329,7 @@ DROP TABLE IF EXISTS `consumer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `consumer` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `application_id` int(11) NOT NULL,
   `version_id` int(11) NOT NULL,
   `stereotype_id` int(11) NOT NULL,
@@ -337,18 +337,18 @@ CREATE TABLE `consumer` (
   `process_function_id` int(11) NOT NULL,
   `output_structure_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_subscribtion_data_stream1_idx` (`stream_id`),
-  KEY `fk_subscribtion_application1_idx` (`application_id`),
-  KEY `fk_subscribtion_structure1_idx` (`output_structure_id`),
-  KEY `fk_subscribtion_version1_idx` (`version_id`),
-  KEY `fk_subscribtion_function1_idx` (`process_function_id`),
-  KEY `fk_subscribtion_stereotype1_idx` (`stereotype_id`),
-  CONSTRAINT `fk_subscribtion_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_subscribtion_function1` FOREIGN KEY (`process_function_id`) REFERENCES `function` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_subscribtion_stereotype1` FOREIGN KEY (`stereotype_id`) REFERENCES `stereotype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_subscribtion_stream1` FOREIGN KEY (`stream_id`) REFERENCES `stream` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_subscribtion_structure1` FOREIGN KEY (`output_structure_id`) REFERENCES `structure` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_subscribtion_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_consumer_data_stream1_idx` (`stream_id`),
+  KEY `fk_consumer_application1_idx` (`application_id`),
+  KEY `fk_consumer_function1_idx` (`process_function_id`),
+  KEY `fk_consumer_structure1_idx` (`output_structure_id`),
+  KEY `fk_consumer_version1_idx` (`version_id`),
+  KEY `fk_consumer_stereotype1_idx` (`stereotype_id`),
+  CONSTRAINT `fk_consumer_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_consumer_function1` FOREIGN KEY (`process_function_id`) REFERENCES `function` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_consumer_stereotype1` FOREIGN KEY (`stereotype_id`) REFERENCES `stereotype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_consumer_stream1` FOREIGN KEY (`stream_id`) REFERENCES `stream` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_consumer_structure1` FOREIGN KEY (`output_structure_id`) REFERENCES `structure` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_consumer_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2026,4 +2026,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-13 21:58:14
+-- Dump completed on 2019-07-13 22:17:01
