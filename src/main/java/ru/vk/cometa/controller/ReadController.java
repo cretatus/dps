@@ -24,12 +24,14 @@ import ru.vk.cometa.model.Build;
 import ru.vk.cometa.model.BuildLog;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.ElementType;
+import ru.vk.cometa.model.Invitation;
 import ru.vk.cometa.model.Key;
 import ru.vk.cometa.model.MajorVersion;
 import ru.vk.cometa.model.Metatype;
 import ru.vk.cometa.model.Resource;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
+import ru.vk.cometa.model.User;
 import ru.vk.cometa.model.Version;
 
 @RestController
@@ -270,5 +272,24 @@ public class ReadController extends BaseService {
 	public List<BuildLog>  getBuildlogs(@RequestBody Build build, Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
 		return buildLogRepository.findByBuild(build);
+	}
+	private boolean contains(List<Invitation> list, Invitation invitation) {
+		for(Invitation i : list) {
+			if(i.getId().equals(invitation.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	@RequestMapping(value = "all_invitatoins", method = RequestMethod.GET)
+	public List<Invitation> getAllInvitations(Principal principal) throws ManagedException {
+		User user = userRepository.findByLogin(principal.getName());
+		List<Invitation> result = invitationRepository.findBySenderUser(user);
+		for(Invitation invitation : invitationRepository.findByOwnerUser(user)) {
+			if(!contains(result, invitation)) {
+				result.add(invitation);
+			}
+		}
+		return result;
 	}
 }

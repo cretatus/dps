@@ -34,6 +34,7 @@ import ru.vk.cometa.repositories.ElementTypeRepository;
 import ru.vk.cometa.repositories.KeyRepository;
 import ru.vk.cometa.repositories.EntityRepository;
 import ru.vk.cometa.repositories.GeneratorRepository;
+import ru.vk.cometa.repositories.InvitationRepository;
 import ru.vk.cometa.repositories.MajorVersionRepository;
 import ru.vk.cometa.repositories.PackageRepository;
 import ru.vk.cometa.repositories.PlatformRepository;
@@ -46,6 +47,7 @@ import ru.vk.cometa.repositories.VersionRepository;
 import ru.vk.cometa.repositories.VersionedObjectRepository;
 import ru.vk.cometa.service.BuildService;
 import ru.vk.cometa.service.ConfigService;
+import ru.vk.cometa.service.EmailUtil;
 import ru.vk.cometa.service.ModelService;
 import ru.vk.cometa.service.ModuleService;
 import ru.vk.cometa.service.PackageService;
@@ -67,6 +69,8 @@ public class BaseService {
 	protected ConfigService config;
 	@Autowired
 	protected ZipUtil zipUtil;
+	@Autowired
+	protected EmailUtil emailUtil;
 
 	@Autowired
 	protected UserRepository userRepository;
@@ -114,6 +118,8 @@ public class BaseService {
 	protected ResourceRepository resourceRepository;
 	@Autowired
 	protected BuildLogRepository buildLogRepository;
+	@Autowired
+	protected InvitationRepository invitationRepository;
 
 	public void checkCurrentApplicationIsNotNull(Principal principal) throws ManagedException {
 		if (userRepository.findByLogin(principal.getName()).getCurrentApplication() == null) {

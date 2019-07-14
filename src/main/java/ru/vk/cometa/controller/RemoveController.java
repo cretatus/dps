@@ -19,6 +19,7 @@ import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.Element;
 import ru.vk.cometa.model.Generator;
+import ru.vk.cometa.model.Invitation;
 import ru.vk.cometa.model.MajorVersion;
 import ru.vk.cometa.model.Platform;
 import ru.vk.cometa.model.Version;
@@ -101,5 +102,9 @@ public class RemoveController extends BaseService{
 	@RequestMapping(value = "assembly", method = RequestMethod.POST)
 	public void removeAssembly(@RequestBody Assembly assembly, Principal principal) throws ManagedException {
 		buildService.removeAssembly(assembly);
+	}
+	@RequestMapping(value = "invitation", method = RequestMethod.POST)
+	public void removeInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
+		invitationRepository.delete(invitation);
 	}
 }

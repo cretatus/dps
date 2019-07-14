@@ -922,6 +922,41 @@ LOCK TABLES `instance` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `invitation`
+--
+
+DROP TABLE IF EXISTS `invitation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invitation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `application_id` int(11) NOT NULL,
+  `status` varchar(45) NOT NULL,
+  `permission` varchar(45) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `description` varchar(2000) DEFAULT NULL,
+  `reciever_user_id` int(11) DEFAULT NULL,
+  `sender_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_invitation_application1_idx` (`application_id`),
+  KEY `fk_invitation_user1_idx` (`reciever_user_id`),
+  KEY `fk_invitation_user2_idx` (`sender_user_id`),
+  CONSTRAINT `fk_invitation_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_invitation_user1` FOREIGN KEY (`reciever_user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_invitation_user2` FOREIGN KEY (`sender_user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invitation`
+--
+
+LOCK TABLES `invitation` WRITE;
+/*!40000 ALTER TABLE `invitation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invitation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `job`
 --
 
@@ -1979,7 +2014,7 @@ CREATE TABLE `user` (
   KEY `fk_user_application1_idx` (`current_application_id`),
   CONSTRAINT `fk_user_application1` FOREIGN KEY (`current_application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_version1` FOREIGN KEY (`current_version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1988,7 +2023,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Admin','admin','admin',NULL,9,NULL),(2,'dddddd','dddddd','ddddd',NULL,NULL,'vasiliy.kuzmin@gmail.com'),(3,'cretatus','cretatus','load1979',NULL,NULL,'vasiliy.kuzmin@gmail.com');
+INSERT INTO `user` VALUES (1,'Admin','admin','admin',NULL,9,'vasiliy.kuzmin@gmail.com'),(4,'ccccccc','ccccccc','load1979',NULL,NULL,'vasiliy.kuzmin1@gmail.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2037,4 +2072,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-14 15:45:00
+-- Dump completed on 2019-07-14 18:53:41

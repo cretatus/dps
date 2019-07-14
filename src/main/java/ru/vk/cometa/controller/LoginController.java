@@ -20,6 +20,7 @@ import org.springframework.web.util.WebUtils;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.User;
 import ru.vk.cometa.repositories.UserRepository;
+import ru.vk.cometa.service.EmailUtil;
 import ru.vk.cometa.service.ValidationService;
 
 import javax.servlet.Filter;
@@ -36,9 +37,11 @@ import java.util.Map;
 @RestController
 public class LoginController {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 	@Autowired
-	protected ValidationService validationService;
+	private ValidationService validationService;
+	@Autowired
+	private EmailUtil emailUtil;
 
 	@RequestMapping("/auth")
     public Principal user(Principal user) {
@@ -60,7 +63,10 @@ public class LoginController {
         user.setEmail(params.get("email"));
 		validationService.unique(user).addParameter("name", user.getName()).check();
 		validationService.unique(user).addParameter("login", user.getLogin()).check();
-        return userRepository.save(user);
+		validationService.unique(user).addParameter("email", user.getEmail()).check();
+		user = userRepository.save(user);
+		emailUtil.send("Registration in co-Meta service", "Welcome! Your account = [" + user.getLogin() + "], password = [" + user.getPassword() + "]", user.getEmail());
+		return user;
     }
 
     @Configuration

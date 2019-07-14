@@ -108,7 +108,7 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
 		        $scope.error = false;
 			}
 			else{
-				$scope.popupMessage = "Something is wrong, God save our souls!";
+				$scope.popupMessage = "Something is wrong! God, save our souls!";
 				ngDialog.open({template: 'popup', scope: $scope});
 				return false;
 			}

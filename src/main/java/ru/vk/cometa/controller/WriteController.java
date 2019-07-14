@@ -2,6 +2,7 @@ package ru.vk.cometa.controller;
 
 import java.security.Principal;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.Element;
 import ru.vk.cometa.model.Generator;
+import ru.vk.cometa.model.Invitation;
 import ru.vk.cometa.model.MajorVersion;
 import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Platform;
@@ -24,6 +26,7 @@ import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
 import ru.vk.cometa.model.User;
 import ru.vk.cometa.model.Version;
+import ru.vk.cometa.service.EmailUtil;
 
 @RestController
 @RequestMapping("/save")
@@ -79,9 +82,10 @@ public class WriteController extends BaseService {
 		stereotype.setVersion(getCurrentVersion(principal));
 		checkApplicationNamedObject(stereotype);
 		stereotype.setIsDefault((stereotype.getIsDefault() != null) && stereotype.getIsDefault());
-		if(stereotype.getIsDefault()) {
-			for(Stereotype s : stereotypeRepository.findByVersionAndMetatype(stereotype.getVersion(), stereotype.getMetatype())) {
-				if(!s.getId().equals(stereotype.getId())) {
+		if (stereotype.getIsDefault()) {
+			for (Stereotype s : stereotypeRepository.findByVersionAndMetatype(stereotype.getVersion(),
+					stereotype.getMetatype())) {
+				if (!s.getId().equals(stereotype.getId())) {
 					s.setIsDefault(false);
 					stereotypeRepository.save(s);
 				}
@@ -193,6 +197,23 @@ public class WriteController extends BaseService {
 		validationService.unique(assembly).addParameter("sysname", assembly.getSysname()).check();
 		assertNotNull(assembly.getVersions(), "Versions");
 		buildService.saveAssembly(assembly);
+	}
+
+	@RequestMapping(value = "invitation", method = RequestMethod.POST)
+	public void saveInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
+		User user = userRepository.findByLogin(principal.getName());
+		assertNotNull(invitation.getApplication(), "Application");
+		assertNotNull(invitation.getEmail(), "Email");
+		assertNotNull(invitation.getPermission(), "Permission");
+		invitation.setSenderUser(user);
+		invitation.setStatus("SENT");
+		validationService.unique(invitation).addParameter("email", invitation.getEmail())
+				.addParameter("application", invitation.getApplication()).check();
+		invitationRepository.save(invitation);
+		emailUtil.send("Co-Meta service invitation",
+				"Lets join to co-Meta! That's cool! But I do not know where it is now. You have to ask this guy about URL - "
+						+ user.getEmail() + ". He (or she) wrote this text: " + invitation.getDescription(),
+				invitation.getEmail(), user.getEmail());
 	}
 
 }
