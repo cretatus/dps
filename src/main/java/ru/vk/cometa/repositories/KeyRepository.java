@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import ru.vk.cometa.model.AppEntity;
 import ru.vk.cometa.model.Attribute;
 import ru.vk.cometa.model.Key;
-import ru.vk.cometa.model.Metatype;
 
 public interface KeyRepository extends JpaRepository<Key, Integer>, VersionedObjectRepository{
 	List<Key> findByEntity(AppEntity entity);

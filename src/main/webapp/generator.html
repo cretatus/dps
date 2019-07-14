@@ -78,8 +78,8 @@
 					</select>
 				</div>
 				<div class="form-group margin-form" style="width:300px;">
-					<label for="stereotype" required>Stereotype:</label>
-					<select ng-options="stereotype.label for stereotype in stereotypes track by stereotype.id"
+					<label for="stereotype" required>Object's stereotype:</label>
+					<select ng-options="stereotype.label for stereotype in stereotypes|orderBy:'label' track by stereotype.id"
 							name="stereotype" id="stereotype" class="form-control" 
 							ng-model="generator.stereotype">
 					</select>
@@ -99,6 +99,18 @@
 					<input type="text" class="form-control" id="description" name="description" ng-model="generator.description"/>
 				</div>
 				<div class="form-group margin-form" style="width:300px;">
+					<label for="extension" required>Result file extension: [file_name].{{generator.extension}}</label>
+					<input type="text" class="form-control" id="extension" name="extension" ng-model="generator.extension"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="encoding" required>Result file encoding:</label>
+					<input type="text" class="form-control" id="encoding" name="encoding" ng-model="generator.encoding"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="templateFormat" required>Template format:</label>
+					<input type="text" class="form-control" id="templateFormat" name="templateFormat" ng-model="templateFormat" ng-disabled="true"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
 					<label>Template text</label>
 					<table>
 					<tr>
@@ -107,6 +119,12 @@
 							<button ng-click="openFile()" type="button" class="btn btn-success" data-tooltip="Open file" ng-disabled="!importFile">
 								<span class="glyphicon glyphicon-open" aria-hidden="true"></span>
 							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="templateEncoding" required>File encoding:</label>
+							<input type="text" class="form-control" id="templateEncoding" name="templateEncoding" ng-model="templateEncoding" ng-disabled="!importFile"/>
 						</td>
 					</tr>
 					</table>

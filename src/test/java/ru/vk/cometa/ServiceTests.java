@@ -36,7 +36,6 @@ import ru.vk.cometa.repositories.StereotypeRepository;
 import ru.vk.cometa.repositories.UserRepository;
 import ru.vk.cometa.repositories.VersionRepository;
 import ru.vk.cometa.service.ModuleService;
-import ru.vk.cometa.service.PackageService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ServiceTests {
@@ -61,16 +60,10 @@ public class ServiceTests {
 	protected PlatformRepository platformRepository;
 
 	private ModuleService moduleService;
-	private PackageService packageService;
 		
 	@Before
 	public void setUp() {
 		moduleService = new ModuleServiceMock(userRepository, applicationRepository,
-				moduleRepository, majorVersionRepository,
-				versionRepository, dependencyRepository,
-				stereotypeRepository, metatypeRepository,
-				platformRepository);
-		packageService = new PackageServiceMock(userRepository, applicationRepository,
 				moduleRepository, majorVersionRepository,
 				versionRepository, dependencyRepository,
 				stereotypeRepository, metatypeRepository,

@@ -1,5 +1,6 @@
 package ru.vk.cometa.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -16,6 +17,17 @@ public class Package extends ApplicationNamedObject {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_package_id", nullable = true)
 	private Package parent;
+
+	@Column(name = "file_name_template", nullable = false)
+	private String fileNameTemplate;
+
+	public String getFileNameTemplate() {
+		return fileNameTemplate;
+	}
+
+	public void setFileNameTemplate(String fileNameTemplate) {
+		this.fileNameTemplate = fileNameTemplate;
+	}
 
 	public String findPath(Package pack) {
 		if(pack == null) {

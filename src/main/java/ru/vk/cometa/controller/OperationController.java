@@ -21,7 +21,7 @@ import ru.vk.cometa.model.ApplicationStereotypicalObject;
 import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Build;
 import ru.vk.cometa.model.BuildLog;
-import ru.vk.cometa.model.Component;
+import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.User;
 
 @RestController
@@ -51,8 +51,8 @@ public class OperationController extends BaseService {
 	public Map<String, Object> generateTemplate(@RequestBody Map<String, Object> params, Principal principal)
 			throws ManagedException {
 		Map<String, Object> result = new HashMap<String, Object>();
-		Component component = componentRepository.findOne(readId(params, "componentId"));
-		ApplicationStereotypicalObject object = buildService.selectObjectsByComponentAndId(component,
+		Stereotype stereotype = stereotypeRepository.findOne(readId(params, "stereotypeId"));
+		ApplicationStereotypicalObject object = buildService.selectObjectsByComponentAndId(stereotype,
 				readId(params, "objectId"));
 		try {
 			result.put("resultText", buildService.processTemplate("debug", readString(params, "templateText"), object));

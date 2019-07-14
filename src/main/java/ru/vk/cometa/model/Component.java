@@ -1,5 +1,6 @@
 package ru.vk.cometa.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -24,6 +25,28 @@ public class Component extends ApplicationNamedObject {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "metatype_code", nullable = false)
 	private Metatype metatype;
+
+	@Column(name = "file_name_template", nullable = false)
+	private String fileNameTemplate;
+
+	@Column(name = "filter_method", nullable = false)
+	private String filterMethod;
+
+	public String getFileNameTemplate() {
+		return fileNameTemplate;
+	}
+
+	public void setFileNameTemplate(String fileNameTemplate) {
+		this.fileNameTemplate = fileNameTemplate;
+	}
+
+	public String getFilterMethod() {
+		return filterMethod;
+	}
+
+	public void setFilterMethod(String filterMethod) {
+		this.filterMethod = filterMethod;
+	}
 
 	public Metatype getMetatype() {
 		return metatype;

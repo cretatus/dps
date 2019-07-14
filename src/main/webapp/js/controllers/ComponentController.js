@@ -17,6 +17,8 @@ componentController.controller('ComponentController', function ($scope, $http, n
 		$scope.tableView = false;
 		$scope.component={};
 		$scope.component.pack=$scope.pack;
+		$scope.component.filterMethod='true';
+		$scope.component.fileNameTemplate='object.sysname';
 	}
 	
 	$scope.edit = function(component){
@@ -135,6 +137,11 @@ componentController.controller('ComponentController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
+	}
+	
+	$scope.metatypeChange = function(){
+		if(!component.metatype) return;
+		$scope.component.fileNameTemplate = component.metatype.code + ".sysname";
 	}
 	
 	$scope.boot();

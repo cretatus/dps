@@ -116,6 +116,8 @@ public class WriteController extends BaseService {
 		assertNotNull(generator.getStereotype(), "Stereotype");
 		generator.setApplication(getApplication(principal));
 		generator.setVersion(getCurrentVersion(principal));
+		generator.setExtension(generator.getExtension() == null ? "" : generator.getExtension());
+		generator.setEncoding(generator.getEncoding() == null ? "UTF-8" : generator.getEncoding());
 		checkApplicationNamedObject(generator);
 		generatorRepository.save(generator);
 	}

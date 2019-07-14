@@ -94,8 +94,15 @@
 				<div class="form-group margin-form" style="width:300px;">
 					<label>Metatype:</label>
 					<select ng-options="metatype.label for metatype in metatypes|orderBy:'metaobject' track by metatype.code" 
-							name="metatype" id="metatype" class="form-control" ng-model="component.metatype">
+							name="metatype" id="metatype" class="form-control" 
+							ng-model="component.metatype" ng-change="metatypeChange()">
 					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Filter (groovy script returning true or false, "{{component.metatype.code}}" is an instance of {{component.metatype.metaobjectName}}):</label>
+					<textarea  style="font:normal 14px 'Courier New';height:50px;width:300px;" 
+						class="form-control" id="templateText" name="templateText" 
+						ng-model="component.filterMethod" required></textarea>
 				</div>
 				<div class="form-group margin-form" style="width:300px;">
 					<label for="name" required>Name:</label>
@@ -110,6 +117,11 @@
 				<div class="form-group margin-form" style="width:300px;">
 					<label for="description" required>Description:</label>
 					<input type="text" class="form-control" id="description" name="description" ng-model="component.description"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="fileNameTemplate" required>Result filename template (groovy script returning the file name without extension):</label>
+					<input type="text" class="form-control" id="fileNameTemplate" name="fileNameTemplate" required 
+						ng-model="component.fileNameTemplate"/>
 				</div>
 				<br/>
 				<div class="row form-group margin-form">

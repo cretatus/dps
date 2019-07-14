@@ -231,7 +231,7 @@ CREATE TABLE `build` (
   KEY `fk_build_application1_idx` (`application_id`),
   CONSTRAINT `fk_build_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_build_assembly1` FOREIGN KEY (`assembly_id`) REFERENCES `assembly` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +240,7 @@ CREATE TABLE `build` (
 
 LOCK TABLES `build` WRITE;
 /*!40000 ALTER TABLE `build` DISABLE KEYS */;
-INSERT INTO `build` VALUES (1,8,1,'2019-07-07 00:00:00.000000',0,NULL,NULL),(2,8,1,'2019-07-07 16:35:04.234000',1,NULL,NULL),(3,8,1,'2019-07-07 16:36:26.466000',2,NULL,NULL),(4,8,1,'2019-07-07 16:43:51.556000',3,NULL,NULL),(5,8,1,'2019-07-07 16:45:26.356000',4,NULL,NULL),(6,8,1,'2019-07-07 16:47:04.094000',5,NULL,NULL),(7,8,1,'2019-07-07 16:58:41.570000',6,NULL,NULL),(8,8,1,'2019-07-07 17:00:38.498000',7,NULL,NULL),(9,8,1,'2019-07-08 19:46:47.097000',8,NULL,NULL),(10,8,1,'2019-07-08 19:47:52.604000',9,NULL,NULL),(11,8,1,'2019-07-08 19:52:21.248000',10,NULL,NULL),(13,8,1,'2019-07-08 20:00:39.232000',11,NULL,NULL),(17,8,2,'2019-07-09 08:55:24.634000',0,NULL,NULL),(18,8,1,'2019-07-13 16:02:48.586000',12,NULL,NULL),(19,8,1,'2019-07-13 21:39:54.264000',13,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_13'),(20,8,1,'2019-07-14 07:20:35.166000',14,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14'),(21,8,1,'2019-07-14 08:13:21.384000',15,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15');
+INSERT INTO `build` VALUES (19,8,1,'2019-07-13 21:39:54.264000',13,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_13'),(20,8,1,'2019-07-14 07:20:35.166000',14,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14'),(21,8,1,'2019-07-14 08:13:21.384000',15,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15'),(24,8,1,'2019-07-14 12:46:55.058000',3,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3');
 /*!40000 ALTER TABLE `build` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `build_log` (
   CONSTRAINT `fk_build_log_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_build_log_build1` FOREIGN KEY (`build_id`) REFERENCES `build` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_build_log_generator1` FOREIGN KEY (`generator_id`) REFERENCES `generator` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,7 +277,7 @@ CREATE TABLE `build_log` (
 
 LOCK TABLES `build_log` WRITE;
 /*!40000 ALTER TABLE `build_log` DISABLE KEYS */;
-INSERT INTO `build_log` VALUES (1,8,20,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\core\\dbtesthome','dbtesthome',0,'AppEntity',21),(2,8,20,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\core\\dbtestcar','dbtestcar',0,'AppEntity',22),(3,8,20,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\core','core',1,'Package',10),(4,8,20,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\test','test',1,'Package',9),(5,8,21,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\core\\dbtesthome','dbtesthome',0,'AppEntity',21),(6,8,21,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\core\\dbtestcar','dbtestcar',0,'AppEntity',22),(7,8,21,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\core','core',1,'Package',10),(8,8,21,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\test','test',1,'Package',9);
+INSERT INTO `build_log` VALUES (1,8,20,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\core\\dbtesthome','dbtesthome',0,'AppEntity',21),(2,8,20,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\core\\dbtestcar','dbtestcar',0,'AppEntity',22),(3,8,20,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\core','core',1,'Package',10),(4,8,20,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_14\\test','test',1,'Package',9),(5,8,21,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\core\\dbtesthome','dbtesthome',0,'AppEntity',21),(6,8,21,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\core\\dbtestcar','dbtestcar',0,'AppEntity',22),(7,8,21,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\core','core',1,'Package',10),(8,8,21,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_15\\test','test',1,'Package',9),(9,8,24,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\core\\home_21.txt','home_21.txt',0,'AppEntity',21),(10,8,24,7,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\core\\car_22.txt','car_22.txt',0,'AppEntity',22),(11,8,24,8,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\core\\home_21.sql','home_21.sql',0,'AppEntity',21),(12,8,24,8,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\core\\car_22.sql','car_22.sql',0,'AppEntity',22),(13,8,24,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\core\\package_child','package_child',1,'Package',11),(14,8,24,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\core','core',1,'Package',10),(15,8,24,NULL,'C:\\Projects\\workspace\\co-meta\\out\\app_test_q1q\\assembly_ss\\build_3\\test','test',1,'Package',9);
 /*!40000 ALTER TABLE `build_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,6 +298,8 @@ CREATE TABLE `component` (
   `platform_id` int(11) NOT NULL,
   `package_id` int(11) NOT NULL,
   `metatype_code` varchar(45) NOT NULL,
+  `file_name_template` varchar(2000) NOT NULL DEFAULT 'object.sysname',
+  `filter_method` varchar(15000) NOT NULL DEFAULT 'true',
   PRIMARY KEY (`id`),
   KEY `fk_component_application1_idx` (`application_id`),
   KEY `fk_component_version1_idx` (`version_id`),
@@ -318,7 +320,7 @@ CREATE TABLE `component` (
 
 LOCK TABLES `component` WRITE;
 /*!40000 ALTER TABLE `component` DISABLE KEYS */;
-INSERT INTO `component` VALUES (3,1,3,'sqsq','sqsq',NULL,2,1,''),(4,9,8,'table','table',NULL,3,8,''),(5,8,7,'qwer','qwer',NULL,5,9,'entity'),(6,8,9,'dbtest','dbtest',NULL,4,10,'entity');
+INSERT INTO `component` VALUES (3,1,3,'sqsq','sqsq',NULL,2,1,'','entity.sysname','true'),(4,9,8,'table','table',NULL,3,8,'','entity.sysname','true'),(5,8,7,'qwer','qwer',NULL,5,9,'entity','entity.sysname','true'),(6,8,9,'dbtest','dbtest',NULL,4,10,'entity','entity.sysname + \"_\" + entity.id','true');
 /*!40000 ALTER TABLE `component` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -595,20 +597,20 @@ CREATE TABLE `entity_key` (
   `description` varchar(2000) DEFAULT NULL,
   `glossary` varchar(2000) DEFAULT NULL,
   `structure_id` int(11) NOT NULL,
-  `subtype_code` varchar(45) NOT NULL,
+  `metatype_code` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_constraint_application1_idx` (`application_id`),
-  KEY `fk_constraint_version1_idx` (`version_id`),
-  KEY `fk_constraint_stereotype1_idx` (`stereotype_id`),
-  KEY `fk_constraint_entity1_idx` (`entity_id`),
-  KEY `fk_constraint_structure1_idx` (`structure_id`),
-  KEY `fk_entity_key_subtype1_idx` (`subtype_code`),
-  CONSTRAINT `fk_constraint_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_constraint_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_constraint_stereotype1` FOREIGN KEY (`stereotype_id`) REFERENCES `stereotype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_constraint_structure1` FOREIGN KEY (`structure_id`) REFERENCES `structure` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_constraint_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_entity_key_subtype1` FOREIGN KEY (`subtype_code`) REFERENCES `metatype` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_key_application1_idx` (`application_id`),
+  KEY `fk_key_version1_idx` (`version_id`),
+  KEY `fk_key_stereotype1_idx` (`stereotype_id`),
+  KEY `fk_key_entity1_idx` (`entity_id`),
+  KEY `fk_key_structure1_idx` (`structure_id`),
+  KEY `fk_key_metatype1_idx` (`metatype_code`),
+  CONSTRAINT `fk_key_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_key_entity1` FOREIGN KEY (`entity_id`) REFERENCES `entity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_key_metatype1` FOREIGN KEY (`metatype_code`) REFERENCES `metatype` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_key_stereotype1` FOREIGN KEY (`stereotype_id`) REFERENCES `stereotype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_key_structure1` FOREIGN KEY (`structure_id`) REFERENCES `structure` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_key_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -856,6 +858,8 @@ CREATE TABLE `generator` (
   `stereotype_id` int(11) NOT NULL,
   `platform_id` int(11) NOT NULL,
   `resource_id` int(11) NOT NULL,
+  `extension` varchar(45) NOT NULL DEFAULT 'txt',
+  `encoding` varchar(45) NOT NULL DEFAULT 'UTF-8',
   PRIMARY KEY (`id`),
   KEY `fk_generator_application1_idx` (`application_id`),
   KEY `fk_generator_version1_idx` (`version_id`),
@@ -867,7 +871,7 @@ CREATE TABLE `generator` (
   CONSTRAINT `fk_generator_resource1` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generator_stereotype1` FOREIGN KEY (`stereotype_id`) REFERENCES `stereotype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generator_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -876,7 +880,7 @@ CREATE TABLE `generator` (
 
 LOCK TABLES `generator` WRITE;
 /*!40000 ALTER TABLE `generator` DISABLE KEYS */;
-INSERT INTO `generator` VALUES (7,8,9,'asdf','asdf',NULL,38,4,16);
+INSERT INTO `generator` VALUES (7,8,9,'asdf','asdf',NULL,36,4,20,'txt','UTF-8'),(8,8,9,'db2','db2',NULL,36,4,21,'sql','UTF-8');
 /*!40000 ALTER TABLE `generator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1123,6 +1127,7 @@ DROP TABLE IF EXISTS `metatype`;
 CREATE TABLE `metatype` (
   `code` varchar(45) NOT NULL,
   `metaobject` varchar(45) NOT NULL,
+  `metaobject_name` varchar(45) NOT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1133,7 +1138,7 @@ CREATE TABLE `metatype` (
 
 LOCK TABLES `metatype` WRITE;
 /*!40000 ALTER TABLE `metatype` DISABLE KEYS */;
-INSERT INTO `metatype` VALUES ('area','Area'),('attribute','Attribute'),('element','Element'),('entity','AppEntity'),('entity structure','Structure'),('generator','Generator'),('index','Key'),('key structure','Structure'),('pk','Key'),('simple structure','Structure'),('uq','Key');
+INSERT INTO `metatype` VALUES ('area','Area','Area'),('attribute','Attribute','Attribute'),('element','Element','Element'),('entity','AppEntity','Entity'),('entityStructure','Structure','Structure'),('generator','Generator','Generator'),('index','Key','Key'),('keyStructure','Structure','Structure'),('pack','Package','Package'),('pk','Key','Key'),('simpleStructure','Structure','Structure'),('uq','Key','Key');
 /*!40000 ALTER TABLE `metatype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1382,6 +1387,7 @@ CREATE TABLE `package` (
   `sysname` varchar(45) NOT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `parent_package_id` int(11) DEFAULT NULL,
+  `file_name_template` varchar(2000) NOT NULL DEFAULT 'object.sysname',
   PRIMARY KEY (`id`),
   KEY `fk_package_application1_idx` (`application_id`),
   KEY `fk_package_version1_idx` (`version_id`),
@@ -1389,7 +1395,7 @@ CREATE TABLE `package` (
   CONSTRAINT `fk_package_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_package_package1` FOREIGN KEY (`parent_package_id`) REFERENCES `package` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_package_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1398,7 +1404,7 @@ CREATE TABLE `package` (
 
 LOCK TABLES `package` WRITE;
 /*!40000 ALTER TABLE `package` DISABLE KEYS */;
-INSERT INTO `package` VALUES (1,1,3,'p1','p1',NULL,NULL),(2,1,3,'p2','p2',NULL,NULL),(3,1,3,'p11','p11',NULL,1),(4,1,3,'p111','p111',NULL,3),(6,1,3,'p3','p3',NULL,1),(7,1,3,'ww','ww',NULL,6),(8,9,8,'DB','db',NULL,NULL),(9,8,7,'test','test',NULL,NULL),(10,8,9,'Core','core',NULL,NULL);
+INSERT INTO `package` VALUES (1,1,3,'p1','p1',NULL,NULL,'pack.sysname'),(2,1,3,'p2','p2',NULL,NULL,'pack.sysname'),(3,1,3,'p11','p11',NULL,1,'pack.sysname'),(4,1,3,'p111','p111',NULL,3,'pack.sysname'),(6,1,3,'p3','p3',NULL,1,'pack.sysname'),(7,1,3,'ww','ww',NULL,6,'pack.sysname'),(8,9,8,'DB','db',NULL,NULL,'pack.sysname'),(9,8,7,'test','test',NULL,NULL,'pack.sysname'),(10,8,9,'Core','core',NULL,NULL,'pack.sysname'),(11,8,9,'child','child',NULL,10,'\"package_\" + pack.sysname');
 /*!40000 ALTER TABLE `package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1478,11 +1484,14 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `application_id` int(11) NOT NULL,
+  `format` varchar(200) NOT NULL DEFAULT 'freemarker',
+  `encoding` varchar(45) NOT NULL DEFAULT 'UTF-8',
+  `owner` varchar(45) NOT NULL DEFAULT 'Generator',
   `text` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_resource_application1_idx` (`application_id`),
   CONSTRAINT `fk_resource_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1491,7 +1500,7 @@ CREATE TABLE `resource` (
 
 LOCK TABLES `resource` WRITE;
 /*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES (1,1,'sfssdgsfdgs'),(2,8,'select * from ${tableName}!'),(3,8,'select * from ${tableName}!'),(4,8,'select * from ${tableName}!'),(5,8,'select * from ${tableName}!'),(6,8,'select * from ${tableName}!'),(7,8,'select * from ${tableName}!'),(8,8,'select * from ${tableName}!'),(9,8,'select * from ${tableName}!'),(10,8,'select * from ${tableName}!'),(11,8,'select * from ${tableName}!'),(12,8,'select * from ${tableName}!'),(13,8,'select * from ${tableName}!+++'),(14,8,'select * from ${tableName}!+++'),(15,8,'create table ${AppElement.sysname}'),(16,8,'create table ${AppEntity.sysname}');
+INSERT INTO `resource` VALUES (1,1,'freemarker','UTF-8','Generator','sfssdgsfdgs'),(2,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(3,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(4,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(5,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(6,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(7,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(8,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(9,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(10,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(11,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(12,8,'freemarker','UTF-8','Generator','select * from ${tableName}!'),(13,8,'freemarker','UTF-8','Generator','select * from ${tableName}!+++'),(14,8,'freemarker','UTF-8','Generator','select * from ${tableName}!+++'),(15,8,'freemarker','UTF-8','Generator','create table ${AppElement.sysname}'),(16,8,'freemarker','UTF-8','Generator','create table ${AppEntity.sysname}'),(17,8,'freemarker','UTF-8','Generator','create table if not exists ${object.sysname}\n(\nid integer \n<#list object.structure.attributes as attribute>\n<#if attribute.element.type.name == \'reference\'>\n, ${attribute.sysname}_id integer\n<#else>\n, ${attribute.sysname}  ${attribute.element.type.name} \n</#if>\n</#list>\n, primary key (id)\n);\n-- проверка кодировки'),(18,8,'freemarker','UTF-8','Generator','create table if not exists ${object.sysname}\r\n(\r\nid integer \r\n<#list object.structure.attributes as attribute>\r\n<#if attribute.element.type.name == \'reference\'>\r\n, ${attribute.sysname}_id integer\r\n<#else>\r\n, ${attribute.sysname}  ${attribute.element.type.name} \r\n</#if>\r\n</#list>\r\n, primary key (id)\r\n);\r\n-- проверка кодировки'),(19,8,'freemarker','cp1251','Generator','create table if not exists ${object.sysname}\r\n(\r\nid integer \r\n<#list object.structure.attributes as attribute>\r\n<#if attribute.element.type.name == \'reference\'>\r\n, ${attribute.sysname}_id integer\r\n<#else>\r\n, ${attribute.sysname}  ${attribute.element.type.name} \r\n</#if>\r\n</#list>\r\n, primary key (id)\r\n);\r\n-- проверка кодировки'),(20,8,'freemarker','UTF-8','Generator','create table if not exists ${entity.sysname}\n(\nid integer \n<#list entity.structure.attributes as attribute>\n<#if attribute.element.type.name == \'reference\'>\n, ${attribute.sysname}_id integer\n<#else>\n, ${attribute.sysname}  ${attribute.element.type.name} \n</#if>\n</#list>\n, primary key (id)\n);\n-- проверка кодировки'),(21,8,'freemarker','UTF-8','Generator','create table if not exists ${entity.sysname}\n(\nid integer \n<#list entity.structure.attributes as attribute>\n<#if attribute.element.type.name == \'reference\'>\n, ${attribute.sysname}_id integer\n<#else>\n, ${attribute.sysname}  ${attribute.element.type.name} \n</#if>\n</#list>\n, primary key (id)\n);\n-- проверка кодировки');
 /*!40000 ALTER TABLE `resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1677,7 +1686,7 @@ CREATE TABLE `stereotype` (
   CONSTRAINT `fk_stereotype_application1` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_stereotype_metatype1` FOREIGN KEY (`metatype_code`) REFERENCES `metatype` (`code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_stereotype_version1` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1686,7 +1695,7 @@ CREATE TABLE `stereotype` (
 
 LOCK TABLES `stereotype` WRITE;
 /*!40000 ALTER TABLE `stereotype` DISABLE KEYS */;
-INSERT INTO `stereotype` VALUES (1,1,0,'Field','field',NULL,0,''),(3,1,3,'111','111',NULL,0,''),(4,1,2,'qqq','qqq',NULL,0,''),(5,1,5,'333','333',NULL,0,''),(6,1,2,'222','222',NULL,1,''),(7,1,2,'area default','area_default',NULL,0,''),(8,1,2,'str','str',NULL,0,''),(9,1,2,'attr','attr',NULL,0,''),(10,1,2,'a2','a2',NULL,0,''),(21,9,8,'Default area','default_area',NULL,1,'area'),(22,9,8,'Default attribute','default_attribute',NULL,1,'attribute'),(23,9,8,'Default element','default_element',NULL,1,'element'),(24,9,8,'Default entity','default_entity',NULL,1,'entity'),(25,9,8,'Default entity structure','default_entity structure',NULL,1,'entity structure'),(26,9,8,'Default generator','default_generator',NULL,1,'generator'),(27,9,8,'Default index','default_index',NULL,1,'index'),(28,9,8,'Default key structure','default_key structure',NULL,1,'key structure'),(29,9,8,'Default pk','default_pk',NULL,1,'pk'),(30,9,8,'Default simple structure','default_simple structure',NULL,1,'simple structure'),(31,9,8,'Default uq','default_uq',NULL,1,'uq'),(33,8,9,'Default area','default_area',NULL,1,'area'),(34,8,9,'Default attribute','default_attribute',NULL,1,'attribute'),(35,8,9,'Default element','default_element',NULL,1,'element'),(36,8,9,'Default entity','default_entity',NULL,1,'entity'),(37,8,9,'Default entity structure','default_entity structure',NULL,1,'entity structure'),(38,8,9,'Default generator','default_generator',NULL,1,'generator'),(39,8,9,'Default index','default_index',NULL,1,'index'),(40,8,9,'Default key structure','default_key structure',NULL,1,'key structure'),(41,8,9,'Default pk','default_pk',NULL,1,'pk'),(42,8,9,'Default simple structure','default_simple structure',NULL,1,'simple structure'),(43,8,9,'Default uq','default_uq',NULL,1,'uq');
+INSERT INTO `stereotype` VALUES (1,1,0,'Field','field',NULL,0,''),(3,1,3,'111','111',NULL,0,''),(4,1,2,'qqq','qqq',NULL,0,''),(5,1,5,'333','333',NULL,0,''),(6,1,2,'222','222',NULL,1,''),(7,1,2,'area default','area_default',NULL,0,''),(8,1,2,'str','str',NULL,0,''),(9,1,2,'attr','attr',NULL,0,''),(10,1,2,'a2','a2',NULL,0,''),(21,9,8,'Default area','default_area',NULL,1,'area'),(22,9,8,'Default attribute','default_attribute',NULL,1,'attribute'),(23,9,8,'Default element','default_element',NULL,1,'element'),(24,9,8,'Default entity','default_entity',NULL,1,'entity'),(25,9,8,'Default entity structure','default_entity structure',NULL,1,'entityStructure'),(26,9,8,'Default generator','default_generator',NULL,1,'generator'),(27,9,8,'Default index','default_index',NULL,1,'index'),(28,9,8,'Default key structure','default_key structure',NULL,1,'keyStructure'),(29,9,8,'Default pk','default_pk',NULL,1,'pk'),(30,9,8,'Default simple structure','default_simple structure',NULL,1,'simpleStructure'),(31,9,8,'Default uq','default_uq',NULL,1,'uq'),(33,8,9,'Default area','default_area',NULL,1,'area'),(34,8,9,'Default attribute','default_attribute',NULL,1,'attribute'),(35,8,9,'Default element','default_element',NULL,1,'element'),(36,8,9,'Default entity','default_entity',NULL,1,'entity'),(37,8,9,'Default entity structure','default_entity structure',NULL,1,'entityStructure'),(38,8,9,'Default generator','default_generator',NULL,1,'generator'),(39,8,9,'Default index','default_index',NULL,1,'index'),(40,8,9,'Default key structure','default_key structure',NULL,1,'keyStructure'),(41,8,9,'Default pk','default_pk',NULL,1,'pk'),(42,8,9,'Default simple structure','default_simple structure',NULL,1,'simpleStructure'),(43,8,9,'Default uq','default_uq',NULL,1,'uq'),(44,8,7,'Entity default stereotype','entity',NULL,1,'entity');
 /*!40000 ALTER TABLE `stereotype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1978,7 +1987,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Admin','admin','admin',8,7);
+INSERT INTO `user` VALUES (1,'Admin','admin','admin',8,9);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2027,4 +2036,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-14  8:25:40
+-- Dump completed on 2019-07-14 13:04:34

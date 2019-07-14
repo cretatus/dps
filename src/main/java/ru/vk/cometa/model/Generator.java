@@ -1,5 +1,6 @@
 package ru.vk.cometa.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -26,6 +27,28 @@ public class Generator extends ApplicationNamedObject {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "resource_id", nullable = false)
 	private Resource resource;
+
+	@Column(name = "extension", nullable = false)
+	private String extension;
+
+	@Column(name = "encoding", nullable = false)
+	private String encoding;
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
 
 	public Integer getResourceId() {
 		return resource.getId();

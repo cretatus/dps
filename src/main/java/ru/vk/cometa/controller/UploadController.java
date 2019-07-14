@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ru.vk.cometa.core.ManagedException;
+import ru.vk.cometa.model.Generator;
 import ru.vk.cometa.model.Resource;
 
 @RestController
@@ -38,7 +39,10 @@ public class UploadController extends BaseService {
 			ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
 			Resource resource = findOrCreateResource(readId(params, "resourceId"));
 			resource.setApplication(getApplication(principal));
-			resource.setText(IOUtils.toString(stream, readString(params, "encoding", "UTF-8")));
+			resource.setFormat(readString(params, "templateFormat"));
+			resource.setEncoding(readString(params, "templateEncoding"));
+			resource.setOwner(Generator.class.getSimpleName());;
+			resource.setText(IOUtils.toString(stream, readString(params, "templateEncoding")));
 			resource = resourceRepository.save(resource);
 			return resource.getId();
 		}
@@ -57,6 +61,9 @@ public class UploadController extends BaseService {
 			Map<String, Object> params = readParams(parameters);
 			Resource resource = findOrCreateResource(readId(params, "resourceId"));
 			resource.setApplication(getApplication(principal));
+			resource.setFormat(readString(params, "templateFormat"));
+			resource.setEncoding("UTF-8");
+			resource.setOwner(Generator.class.getSimpleName());;
 			resource.setText(text);
 			resource = resourceRepository.save(resource);
 			return resource.getId();

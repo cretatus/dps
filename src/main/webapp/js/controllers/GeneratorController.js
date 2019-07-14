@@ -7,6 +7,8 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		$scope.editView = false;
 		$scope.tableView = true;
 		$scope.generator={};
+		$scope.generator.extension = "txt";
+		$scope.templateTextChange();
 		$scope.generators=[];
 		$scope.read();
 	}
@@ -15,7 +17,6 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		$scope.addView = true;
 		$scope.editView = false;
 		$scope.tableView = false;
-		$scope.generator={};
 		$scope.templateTextChange();
 	}
 	
@@ -26,6 +27,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		$scope.generator=generator;
 		$http.post('read/resource', generator.resourceId)
 		.success(function(data, status, headers, config) {
+			$scope.generator.encoding = "UTF-8";
 			$scope.templateText = data.text;
 		})
 		.error(function(data, status, headers, config) {
@@ -65,7 +67,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('read/stereotypes_lookup', 'generator')
+		$http.get('read/all_stereotypes_lookup')
 		.success(function(data, status, headers, config) {
             $scope.stereotypes = data;
 		})
@@ -110,9 +112,14 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	}
 
 	$scope.uploadFile = function(){
+		var parameters = {
+				resourceId: $scope.generator.resource.id,
+				templateFormat: $scope.templateFormat,
+				templateEncoding: $scope.templateEncoding,
+		};
 		var fd = new FormData();
 		fd.append('file', $scope.importFile);
-		fd.append('parameters', JSON.stringify({resourceId: $scope.generator.resource.id}));
+		fd.append('parameters', JSON.stringify(parameters));
 
 		$http.post("upload/file_upload", fd, {
 			transformRequest : angular.identity,
@@ -131,9 +138,14 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	}
 
 	$scope.uploadText = function(){
+		var parameters = {
+				resourceId: $scope.generator.resource.id,
+				templateFormat: $scope.templateFormat,
+				templateEncoding: $scope.templateEncoding,
+		};
 		var fd = new FormData();
 		fd.append('text', $scope.templateText);
-		fd.append('parameters', JSON.stringify({resourceId: $scope.generator.resource.id}));
+		fd.append('parameters', JSON.stringify(parameters));
 
 		$http.post("upload/text_upload", fd, {
 			transformRequest : angular.identity,
@@ -188,6 +200,8 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	}
 	
 	$scope.boot = function(){
+		$scope.templateFormat = "freemarker";
+		$scope.templateEncoding = "UTF-8";
 		$http.get('read/versions')
 		.success(function(data, status, headers, config) {
 			$scope.versions = data;
@@ -214,7 +228,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
         if (file){
         	if (fileReader){
         		fileReader.addEventListener("loadend", $scope.refreshText, false);
-        		fileReader.readAsText(file);
+        		fileReader.readAsText(file, $scope.templateEncoding);
             } 
         }
 	}
@@ -226,6 +240,7 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	$scope.templateTextChange = function(){
 		window.document.getElementById("importFile").value = "";
 		$scope.importFile = undefined;
+		$scope.templateEncoding = "UTF-8";
 	}
 	
 	$scope.boot();

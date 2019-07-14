@@ -15,20 +15,12 @@
 						</select>
 					</td>
 					<td width="10"></td>
-					<td align="right">Package</td>
+					<td align="right">Object's stereotype</td>
 					<td width="10"></td>
 					<td>
-						<select ng-options="package.version.module.name+' ('+package.path+'): '+package.name for package in packages|orderBy:'path' track by package.id"
-								name="package" id="package" class="form-control" ng-model="search.pack">
-						</select>
-					</td>
-					<td width="10"></td>
-					<td align="right">Component</td>
-					<td width="10"></td>
-					<td>
-						<select ng-options="component.name for component in components|filter:search|orderBy:'path' track by component.id"
-								name="component" id="component" class="form-control" 
-								ng-model="component" ng-disabled="!search.pack.id" ng-change="reloadObjects()">
+						<select ng-options="stereotype.label for stereotype in stereotypes|orderBy:'label' track by stereotype.id"
+								name="stereotype" id="stereotype" class="form-control" 
+								ng-model="stereotype" ng-change="reloadObjects()">
 						</select>
 					</td>
 					<td width="10"></td>
@@ -37,7 +29,7 @@
 					<td>
 						<select ng-options="object.name for object in objects|orderBy:'name' track by object.id"
 								name="object" id="object" class="form-control" 
-								ng-model="object" ng-disabled="!component.id"  ng-change="refreshInspector()">
+								ng-model="object" ng-disabled="!stereotype.id"  ng-change="refreshInspector()">
 						</select>
 					</td>
 				</tr>
@@ -73,7 +65,7 @@
 					<table>
 						<tr>
 							<td>object</td>
-							<td>{{component.metatype.metaobject}}</td>
+							<td>{{stereotype.metatype.metaobject}}</td>
 						</tr>
 						<tr>
 							<td>id</td>

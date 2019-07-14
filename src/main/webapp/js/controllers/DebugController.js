@@ -17,17 +17,9 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 
 	$scope.readLookups = function(){
 		if(!$scope.currentVersion) return;
-		$http.get('read/packages_lookup')
+		$http.get('read/all_stereotypes_lookup')
 		.success(function(data, status, headers, config) {
-            $scope.packages = data;
-		})
-		.error(function(data, status, headers, config) {
-			$scope.popupMessage = data.message;
-			ngDialog.open({template: 'popup', scope: $scope});
-		});
-		$http.get('read/components_lookup')
-		.success(function(data, status, headers, config) {
-            $scope.components = data;
+            $scope.stereotypes = data;
 		})
 		.error(function(data, status, headers, config) {
 			$scope.popupMessage = data.message;
@@ -36,8 +28,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 	}
 
 	$scope.boot = function(){
-		$scope.search = {};
-		$scope.component = {};
+		$scope.stereotype = {};
 		$scope.object = {};
 		$scope.resultText = "None";
 		$http.get('read/versions')
@@ -60,8 +51,8 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 	}
 
 	$scope.reloadObjects = function(){
-		if(!$scope.component) return;
-		$http.post('read/objects_by_component', $scope.component)
+		if(!$scope.stereotype) return;
+		$http.post('read/objects_by_stereotype', $scope.stereotype)
 		.success(function(data, status, headers, config) {
 			$scope.objects = data;
 		})
@@ -94,7 +85,7 @@ debugController.controller('DebugController', function ($scope, $http, ngDialog,
 	
 	$scope.generate = function(){
 		var p = {};
-		p["componentId"] = $scope.component.id;
+		p["stereotypeId"] = $scope.stereotype.id;
 		p["objectId"] = $scope.object.id;
 		p["templateText"] = $scope.templateText;
 		$http.post('operation/generate_template', p)

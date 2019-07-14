@@ -25,9 +25,11 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
+import groovy.util.Eval;
 import ru.vk.cometa.controller.BaseService;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.Application;
+import ru.vk.cometa.model.ApplicationNamedObject;
 import ru.vk.cometa.model.ApplicationStereotypicalObject;
 import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Build;
@@ -36,6 +38,7 @@ import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.Generator;
 import ru.vk.cometa.model.Package;
+import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Version;
 
 @Service
@@ -90,28 +93,28 @@ public class BuildService extends BaseService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<ApplicationStereotypicalObject> selectObjectsByComponent(Component component){
-		String queryText = "select a from " + component.getMetatype().getMetaobject() + 
-				" a where a.application = :application";
+	public List<ApplicationStereotypicalObject> selectObjectsByComponent(Application application, Stereotype stereotype){
+		String queryText = "select a from " + stereotype.getMetatype().getMetaobject() + 
+				" a where a.application = :application and a.stereotype = :stereotype";
 		Query query = entityManager.createQuery(queryText);
-		query.setParameter("application", component.getApplication());
+		query.setParameter("application", application);
+		query.setParameter("stereotype", stereotype);
 		
 		return new ArrayList<ApplicationStereotypicalObject>(query.getResultList());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ApplicationStereotypicalObject selectObjectsByComponentAndId(Component component, Integer id) throws ManagedException{
-		String queryText = "select a from " + component.getMetatype().getMetaobject() + 
-				" a where a.application = :application and a.id = :id";
+	public ApplicationStereotypicalObject selectObjectsByComponentAndId(Stereotype stereotype, Integer id) throws ManagedException{
+		String queryText = "select a from " + stereotype.getMetatype().getMetaobject() + 
+				" a where a.id = :id";
 		Query query = entityManager.createQuery(queryText);
-		query.setParameter("application", component.getApplication());
 		query.setParameter("id", id);
 		List<ApplicationStereotypicalObject> result = new ArrayList<ApplicationStereotypicalObject>(query.getResultList());
 		if(result.size() == 1) {
 			return result.get(0);
 		}
 		else {
-			throw new ManagedException("The object " + component.getMetatype().getMetaobject() + " was not found");
+			throw new ManagedException("The object " + stereotype.getMetatype().getMetaobject() + " was not found");
 		}
 	}
 	
@@ -124,21 +127,21 @@ public class BuildService extends BaseService{
 		
 		try {
 			Template temp = cfg.getTemplate(generator.getSysname());
-			for(ApplicationStereotypicalObject object : selectObjectsByComponent(component)) {
+			for(ApplicationStereotypicalObject object : selectObjectsByComponent(build.getApplication(), generator.getStereotype())) {
 				BuildLog buildLog = new BuildLog();
 				buildLog.setApplication(build.getApplication());
 				buildLog.setBuild(build);
 				buildLog.setIsDirectory(false);
-				buildLog.setFile(component.getSysname() + object.getSysname());
+				buildLog.setFile(generateFileName(object, component.getMetatype().getCode(), component.getFileNameTemplate()) + "." + generator.getExtension());
 				buildLog.setGenerator(generator);
 				buildLog.setMetaobject(component.getMetatype().getMetaobject());
 				buildLog.setObjectId(object.getId());
 				
 				Map<String, Object> root = new HashMap<>();
-				root.put(component.getMetatype().getMetaobject(), object);
+				root.put(component.getMetatype().getCode(), object);
 				File outputFile = new File(packageDir, buildLog.getFile());
 				FileOutputStream fileOutStream = new FileOutputStream(outputFile);
-				OutputStreamWriter outWriter = new OutputStreamWriter(fileOutStream);
+				OutputStreamWriter outWriter = new OutputStreamWriter(fileOutStream, generator.getEncoding());
 				temp.process(root, outWriter);
 				
 				buildLog.setPath(outputFile.getAbsolutePath());
@@ -168,8 +171,14 @@ public class BuildService extends BaseService{
 	
 	protected void processComponent(Component component, File packageDir, Build build) throws ManagedException{
 		for(Generator generator : generatorRepository.findByPlatform(component.getPlatform())) {
-			processGenerator(generator, component, packageDir, build);
+			if(generator.getStereotype().getMetatype().getCode().equals(component.getMetatype().getCode())) {
+				processGenerator(generator, component, packageDir, build);
+			}
 		}
+	}
+	
+	protected String generateFileName(ApplicationNamedObject object, String objectName, String template) {
+		return (String) Eval.me(objectName, object, template);
 	}
 	
 	protected void processPackages(List<Package> packages, File dir, Build build) throws ManagedException{
@@ -178,12 +187,12 @@ public class BuildService extends BaseService{
 			buildLog.setApplication(build.getApplication());
 			buildLog.setBuild(build);
 			buildLog.setIsDirectory(true);
-			buildLog.setFile(pack.getSysname());
+			buildLog.setFile(generateFileName(pack, "pack", pack.getFileNameTemplate()));
 			buildLog.setGenerator(null);
 			buildLog.setMetaobject(Package.class.getSimpleName());
 			buildLog.setObjectId(pack.getId());
 			
-			File packageDir = findOrCreateDir(dir, pack.getSysname());
+			File packageDir = findOrCreateDir(dir, buildLog.getFile());
 			for(Component component : componentRepository.findByPack(pack)) {
 				processComponent(component, packageDir, build);
 			}

@@ -133,7 +133,7 @@ entityController.controller('EntityController', function ($scope, $http, ngDialo
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.post('read/stereotypes_lookup', 'entity structure')
+		$http.post('read/stereotypes_lookup', 'entityStructure')
 		.success(function(data, status, headers, config) {
             $scope.structureStereotypes = data;
 		})

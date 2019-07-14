@@ -1,5 +1,6 @@
 package ru.vk.cometa.controller;
 
+import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,15 +22,14 @@ import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Attribute;
 import ru.vk.cometa.model.Build;
 import ru.vk.cometa.model.BuildLog;
-import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.ElementType;
 import ru.vk.cometa.model.Key;
 import ru.vk.cometa.model.MajorVersion;
+import ru.vk.cometa.model.Metatype;
 import ru.vk.cometa.model.Resource;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
-import ru.vk.cometa.model.Metatype;
 import ru.vk.cometa.model.Version;
 
 @RestController
@@ -127,6 +127,11 @@ public class ReadController extends BaseService {
 	public List<ApplicationNamedObject> getStructuresLookup(Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
 		return selectValidObjects(structureRepository, principal);
+	}
+	@RequestMapping(value = "all_stereotypes_lookup", method = RequestMethod.GET)
+	public List<ApplicationNamedObject> getAllStereotypesLookup(Principal principal) throws ManagedException {
+		checkCurrentApplicationIsNotNull(principal);
+		return selectValidObjects(stereotypeRepository, principal);
 	}
 	@RequestMapping(value = "stereotypes_lookup", method = RequestMethod.POST)
 	public List<ApplicationNamedObject> getStereotypesLookup(@RequestBody String metatypeCode, Principal principal) throws ManagedException {
@@ -234,7 +239,13 @@ public class ReadController extends BaseService {
 	@RequestMapping(value = "builds", method = RequestMethod.GET)
 	public List<Build> getBuilds(Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
-		return buildRepository.findByApplication(getApplication(principal));
+		List<Build> result = new ArrayList<Build>();
+		for(Build build : buildRepository.findByApplication(getApplication(principal))) {
+			if(new File(build.getPath()).exists()) {
+				result.add(build);
+			}
+		}
+		return result;
 	}
 	@RequestMapping(value = "dependency_influencers", method = RequestMethod.GET)
 	public Map<Integer, List<Dependency>> getDependencyInfluencer(Principal principal) throws ManagedException {
@@ -250,10 +261,10 @@ public class ReadController extends BaseService {
 		checkCurrentApplicationIsNotNull(principal);
 		return resourceRepository.findOne(resourceId);
 	}
-	@RequestMapping(value = "objects_by_component", method = RequestMethod.POST)
-	public List<ApplicationStereotypicalObject>  selectObjectsByComponent(@RequestBody Component component, Principal principal) throws ManagedException {
+	@RequestMapping(value = "objects_by_stereotype", method = RequestMethod.POST)
+	public List<ApplicationStereotypicalObject>  selectObjectsByComponent(@RequestBody Stereotype stereotype, Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
-		return buildService.selectObjectsByComponent(component);
+		return buildService.selectObjectsByComponent(getApplication(principal), stereotype);
 	}
 	@RequestMapping(value = "build_logs", method = RequestMethod.POST)
 	public List<BuildLog>  getBuildlogs(@RequestBody Build build, Principal principal) throws ManagedException {

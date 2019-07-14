@@ -16,6 +16,7 @@ packageController.controller('PackageController', function ($scope, $http, ngDia
 		$scope.editView = false;
 		$scope.tableView = false;
 		$scope.pack={};
+		$scope.pack.fileNameTemplate='pack.sysname';
 	}
 	
 	$scope.edit = function(pack){
