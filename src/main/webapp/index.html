@@ -50,6 +50,7 @@
     <script src="js/controllers/EntityController.js"></script>
     <script src="js/controllers/AssemblyController.js"></script>
     <script src="js/controllers/DebugController.js"></script>
+    <script src="js/controllers/BuildController.js"></script>
 	<script type="text/ng-template" id="popup">
 		<p><code>{{popupMessage}}</code></p>
 	</script>
@@ -112,9 +113,10 @@
 							   aria-haspopup="true" aria-expanded="false">
 								<span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Building<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a class="header" ng-click="selectTab('Assemblies')" href="#/assembly">Assemblies</a></li>
-								<li><a class="header" ng-click="selectTab('Generators')" href="#/generator">Generators</a></li>
 								<li><a class="header" ng-click="selectTab('Debug')" href="#/debug">Debug</a></li>
+								<li><a class="header" ng-click="selectTab('Generators')" href="#/generator">Generators</a></li>
+								<li><a class="header" ng-click="selectTab('Assemblies')" href="#/assembly">Assemblies</a></li>
+								<li><a class="header" ng-click="selectTab('Build')" href="#/build">Build</a></li>
 							</ul>
 						</li>
 						<li><a class="navbarStyle" style="text-decoration: underline;">{{menuName}}</a></li>

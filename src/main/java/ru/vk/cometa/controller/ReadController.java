@@ -20,6 +20,7 @@ import ru.vk.cometa.model.ApplicationStereotypicalObject;
 import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Attribute;
 import ru.vk.cometa.model.Build;
+import ru.vk.cometa.model.BuildLog;
 import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.ElementType;
@@ -253,5 +254,10 @@ public class ReadController extends BaseService {
 	public List<ApplicationStereotypicalObject>  selectObjectsByComponent(@RequestBody Component component, Principal principal) throws ManagedException {
 		checkCurrentApplicationIsNotNull(principal);
 		return buildService.selectObjectsByComponent(component);
+	}
+	@RequestMapping(value = "build_logs", method = RequestMethod.POST)
+	public List<BuildLog>  getBuildlogs(@RequestBody Build build, Principal principal) throws ManagedException {
+		checkCurrentApplicationIsNotNull(principal);
+		return buildLogRepository.findByBuild(build);
 	}
 }

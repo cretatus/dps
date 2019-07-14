@@ -65,10 +65,6 @@ router.config(function($stateProvider, $urlRouterProvider) {
 		url : '/entity', 
 		templateUrl : 'entity.html',	
 		controller : 'EntityController'})
-	.state('build', {
-		url : '/build', 
-		templateUrl : 'default.html',	
-		controller : 'DefaultController'})
 	.state('assembly', {
 		url : '/assembly', 
 		templateUrl : 'assembly.html',	
@@ -81,6 +77,10 @@ router.config(function($stateProvider, $urlRouterProvider) {
 		url : '/debug', 
 		templateUrl : 'debug.html',	
 		controller : 'DebugController'})
+	.state('build', {
+		url : '/build', 
+		templateUrl : 'build.html',	
+		controller : 'BuildController'})
 	;
 
 	$urlRouterProvider.otherwise('/');

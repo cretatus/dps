@@ -31,6 +31,7 @@ import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.ApplicationStereotypicalObject;
 import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Build;
+import ru.vk.cometa.model.BuildLog;
 import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.Generator;
@@ -114,7 +115,7 @@ public class BuildService extends BaseService{
 		}
 	}
 	
-	protected void processGenerator(Generator generator, Component component, File packageDir) throws ManagedException{
+	protected void processGenerator(Generator generator, Component component, File packageDir, Build build) throws ManagedException{
 		StringTemplateLoader stringLoader = new StringTemplateLoader();
 		stringLoader.putTemplate(generator.getSysname(), generator.getResource().getText());
 		
@@ -124,11 +125,24 @@ public class BuildService extends BaseService{
 		try {
 			Template temp = cfg.getTemplate(generator.getSysname());
 			for(ApplicationStereotypicalObject object : selectObjectsByComponent(component)) {
+				BuildLog buildLog = new BuildLog();
+				buildLog.setApplication(build.getApplication());
+				buildLog.setBuild(build);
+				buildLog.setIsDirectory(false);
+				buildLog.setFile(component.getSysname() + object.getSysname());
+				buildLog.setGenerator(generator);
+				buildLog.setMetaobject(component.getMetatype().getMetaobject());
+				buildLog.setObjectId(object.getId());
+				
 				Map<String, Object> root = new HashMap<>();
 				root.put(component.getMetatype().getMetaobject(), object);
-				FileOutputStream fileOutStream = new FileOutputStream(new File(packageDir, component.getSysname() + object.getSysname()));
+				File outputFile = new File(packageDir, buildLog.getFile());
+				FileOutputStream fileOutStream = new FileOutputStream(outputFile);
 				OutputStreamWriter outWriter = new OutputStreamWriter(fileOutStream);
 				temp.process(root, outWriter);
+				
+				buildLog.setPath(outputFile.getAbsolutePath());
+				buildLogRepository.save(buildLog);
 			}
 		}
 		catch(Exception ex) {
@@ -152,19 +166,31 @@ public class BuildService extends BaseService{
 		return out.toString();
 	}
 	
-	protected void processComponent(Component component, File packageDir) throws ManagedException{
+	protected void processComponent(Component component, File packageDir, Build build) throws ManagedException{
 		for(Generator generator : generatorRepository.findByPlatform(component.getPlatform())) {
-			processGenerator(generator, component, packageDir);
+			processGenerator(generator, component, packageDir, build);
 		}
 	}
 	
-	protected void processPackages(List<Package> packages, File dir) throws ManagedException{
+	protected void processPackages(List<Package> packages, File dir, Build build) throws ManagedException{
 		for(Package pack: packages) {
+			BuildLog buildLog = new BuildLog();
+			buildLog.setApplication(build.getApplication());
+			buildLog.setBuild(build);
+			buildLog.setIsDirectory(true);
+			buildLog.setFile(pack.getSysname());
+			buildLog.setGenerator(null);
+			buildLog.setMetaobject(Package.class.getSimpleName());
+			buildLog.setObjectId(pack.getId());
+			
 			File packageDir = findOrCreateDir(dir, pack.getSysname());
 			for(Component component : componentRepository.findByPack(pack)) {
-				processComponent(component, packageDir);
+				processComponent(component, packageDir, build);
 			}
-			processPackages(packageRepository.findByParent(pack), packageDir);
+			processPackages(packageRepository.findByParent(pack), packageDir, build);
+
+			buildLog.setPath(packageDir.getAbsolutePath());
+			buildLogRepository.save(buildLog);
 		}
 	}
 	
@@ -181,7 +207,7 @@ public class BuildService extends BaseService{
 		File appDir = findOrCreateDir(rootDir, "app_" + application.getSysname());
 		File assemblyDir = findOrCreateDir(appDir, "assembly_" + assembly.getSysname());
 		File buildDir = findOrCreateDir(assemblyDir, "build_" + build.getNumber());
-		processPackages(findRootPackages(assembly), buildDir);
+		processPackages(findRootPackages(assembly), buildDir, build);
 		build.setPath(buildDir.getAbsolutePath());
 		buildRepository.save(build);
 	}

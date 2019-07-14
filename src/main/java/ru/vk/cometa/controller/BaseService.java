@@ -25,6 +25,7 @@ import ru.vk.cometa.repositories.ApplicationRepository;
 import ru.vk.cometa.repositories.AreaRepository;
 import ru.vk.cometa.repositories.AssemblyRepository;
 import ru.vk.cometa.repositories.AttributeRepository;
+import ru.vk.cometa.repositories.BuildLogRepository;
 import ru.vk.cometa.repositories.BuildRepository;
 import ru.vk.cometa.repositories.ComponentRepository;
 import ru.vk.cometa.repositories.DependencyRepository;
@@ -111,6 +112,8 @@ public class BaseService {
 	protected BuildRepository buildRepository;
 	@Autowired
 	protected ResourceRepository resourceRepository;
+	@Autowired
+	protected BuildLogRepository buildLogRepository;
 
 	public void checkCurrentApplicationIsNotNull(Principal principal) throws ManagedException {
 		if (userRepository.findByLogin(principal.getName()).getCurrentApplication() == null) {
