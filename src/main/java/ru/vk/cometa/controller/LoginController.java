@@ -11,10 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
+
+import ru.vk.cometa.core.ManagedException;
+import ru.vk.cometa.model.User;
+import ru.vk.cometa.repositories.UserRepository;
+import ru.vk.cometa.service.ValidationService;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,13 +31,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 public class LoginController {
+    @Autowired
+    UserRepository userRepository;
+	@Autowired
+	protected ValidationService validationService;
 
 	@RequestMapping("/auth")
     public Principal user(Principal user) {
         return user;
+    }
+
+	@RequestMapping("/register")
+    public User register(@RequestBody Map<String, String> params) throws ManagedException {
+		if(!params.containsKey("username") || !params.containsKey("password") || !params.containsKey("email")) {
+			throw new ManagedException("User parameters are incorrect");
+		}
+		validationService.assertNotNull(params.get("username"), "User name");
+		validationService.assertNotNull(params.get("password"), "Password");
+		validationService.assertNotNull(params.get("email"), "E-mail");
+        User user = new User();
+        user.setLogin(params.get("username"));
+        user.setName(params.get("username"));
+        user.setPassword(params.get("password"));
+        user.setEmail(params.get("email"));
+		validationService.unique(user).addParameter("name", user.getName()).check();
+		validationService.unique(user).addParameter("login", user.getLogin()).check();
+        return userRepository.save(user);
     }
 
     @Configuration
@@ -66,25 +95,9 @@ public class LoginController {
                     .logout().and().authorizeRequests()
                     .antMatchers(
                             "/",
-                            "/admin.html",
-                            "/alluser.html",
-                            "/calculation_parameter.html",
-                            "/calculation_type.html",
-                            "/company.html",
-                            "/contaminant.html",
-                            "/control.html",
+                            "/register",
                             "/index.html",
-                            "/location.html",
-                            "/login.html",
-                            "/parameter_structure_set.html",
-                            "/period.html",
-                            "/raw.html",
-                            "/raw_type.html",
-                            "/role.html",
-                            "/settings.html",
-                            "/source_type.html",
-                            "/users.html",
-                            "/work.html").permitAll().anyRequest()
+                            "/login.html").permitAll().anyRequest()
                     .authenticated().and().csrf()
                     .disable();
         }

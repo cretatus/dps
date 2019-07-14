@@ -25,6 +25,9 @@ public class User implements Identified{
 	
 	@Column(name = "login", nullable = false)
 	private String login;
+
+	@Column(name = "email", nullable = true)
+	private String email;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "password", nullable = false)
@@ -37,6 +40,14 @@ public class User implements Identified{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "current_version_id", nullable = true)
 	private Version currentVersion;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public Version getCurrentVersion() {
 		return currentVersion;

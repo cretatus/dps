@@ -2,6 +2,8 @@ var loginController = angular.module('cometa');
 
 loginController.controller('LoginController', function ($rootScope, $scope, $http, $location, ngDialog, $window) {
 
+	$scope.regexSysname = '[a-zA-Z][\\w]*';
+	$scope.regexEmail = '^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$';
     $scope.menuName='';
     var authenticate = function(callback) {
         $http.get('auth').success(function(data) {
@@ -79,4 +81,47 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
     $scope.selectTab = function(name){
         $scope.menuName = name;
     }
+
+    $scope.register = function(){
+    	$scope.registration = {};
+        $scope.registerView = true;
+    }
+
+    $scope.registerSubmit = function(){
+    	$scope.popupMessage = "";
+    	if($scope.registration.username.length < 6){
+    		$scope.popupMessage = "The account name is too short (min 6 signs)";
+    	}  
+    	if($scope.registration.password != $scope.registration.confPassword){
+    		$scope.popupMessage = "The confirmation of password is not correct";
+    	}
+    	if($scope.popupMessage != ""){
+    		ngDialog.open({template: 'popup', scope: $scope });
+    		return false;
+    	}
+		$http.post('register', $scope.registration)
+		.success(function(data, status, headers, config) {
+			if(data.id){
+				$scope.popupMessage = "The registration finished successfully. Try to login";
+				ngDialog.open({template: 'popup', scope: $scope});
+		        $scope.registerView = false;
+		        $scope.error = false;
+			}
+			else{
+				$scope.popupMessage = "Something is wrong, God save our souls!";
+				ngDialog.open({template: 'popup', scope: $scope});
+				return false;
+			}
+		})
+		.error(function(data, status, headers, config) {
+			$scope.popupMessage = data.message;
+			ngDialog.open({template: 'popup', scope: $scope});
+			return false;
+		});
+    }
+
+    $scope.registerBack = function(){
+        $scope.registerView = false;
+    }
+
 });

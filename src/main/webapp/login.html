@@ -1,23 +1,52 @@
-﻿<div class="page-header">
-	<h1>Вход</h1>
+<div class="page-header">
+	<h1>co-Meta</h1>
 
 </div>
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-8 col-md-offset-2" ng-show="!registerView">
 	<div class="jumbotron text-center">
 		<div class="alert alert-danger" ng-show="error">
-			Проблема в авторизацией. Попробуйте снова
+			Authorization problem. Try again
 		</div>
 		<form role="form" ng-submit="login()">
 			<div class="form-group margin-form" style="width:200px;">
-				<label for="username">Логин:</label> <input type="text"
-															   class="form-control" id="username" name="username" ng-model="credentials.login"/>
+				<label for="username">Account:</label> 
+				<input type="text" class="form-control" id="username" name="username" ng-model="credentials.login"/>
 			</div>
 			<div class="form-group margin-form" style="width:200px;">
-				<label for="password">Пароль:</label> <input type="password"
-															   class="form-control" id="password" name="password" ng-model="credentials.password"/>
+				<label for="password">Password:</label> 
+				<input type="password" class="form-control" id="password" name="password" ng-model="credentials.password"/>
 			</div>
 			<div class="form-group margin-form">
-				<button type="submit" class="btn btn-primary">Войти</button>
+				<button class="btn btn-primary" ng-click="register()">Register</button>
+				<button type="submit" class="btn btn-primary">Login</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="col-md-8 col-md-offset-2" ng-show="registerView">
+	<div class="jumbotron text-center">
+		<form role="form" ng-submit="registerSubmit()">
+			<div class="form-group margin-form" style="width:200px;">
+				<label for="newusername">Account name:</label> 
+				<input type="text" class="form-control" id="newusername" name="newusername" ng-pattern="regexSysname"
+					ng-model="registration.username" required/>
+			</div>
+			<div class="form-group margin-form" style="width:200px;">
+				<label for="email">E-mail:</label> 
+				<input type="text" class="form-control" id="email" name="email" ng-pattern="regexEmail"
+					ng-model="registration.email" required/>
+			</div>
+			<div class="form-group margin-form" style="width:200px;">
+				<label for="newpassword">Password:</label> 
+				<input type="password" class="form-control" id="newpassword" name="newpassword" ng-model="registration.password" required/>
+			</div>
+			<div class="form-group margin-form" style="width:200px;">
+				<label for="confpassword">Confirm password:</label> 
+				<input type="password" class="form-control" id="confpassword" name="confpassword" ng-model="registration.confPassword" required/>
+			</div>
+			<div class="form-group margin-form">
+				<button class="btn btn-primary" ng-click="registerBack()">Back</button>
+				<button type="submit" class="btn btn-primary">Register</button>
 			</div>
 		</form>
 	</div>
