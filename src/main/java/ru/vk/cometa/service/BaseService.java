@@ -65,8 +65,6 @@ public class BaseService {
 	protected ZipUtil zipUtil;
 	@Autowired
 	protected EmailUtil emailUtil;
-	@Autowired
-	protected UserService userService;
 
 	@Autowired
 	protected UserRepository userRepository;

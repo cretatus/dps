@@ -21,6 +21,18 @@ import ru.vk.cometa.service.BaseService;
 @RestController
 @RequestMapping("/admin")
 public class AdminController extends BaseService{
+	private String getPermission(User user, Application app) throws ManagedException {
+		Application application = applicationRepository.findOne(app.getId());
+		if(application.getOwnerUser().getId().equals(user.getId())) {
+			return "owner";
+		}
+		Invitation invitation = invitationRepository.findByApplicationAndEmail(application, user.getEmail());
+		if(invitation == null) {
+			throw new ManagedException("The user " + user.getName() + " does not have rights on the application " + application.getName());
+		}
+		return invitation.getPermission();
+	}
+
 	@RequestMapping(value = "current_application", method = RequestMethod.GET)
 	public Application getCurrentApplication(Principal principal) throws ManagedException {
 		return userRepository.findByLogin(principal.getName()).getCurrentApplication();
@@ -29,7 +41,13 @@ public class AdminController extends BaseService{
 
 	@RequestMapping(value = "save_application", method = RequestMethod.POST)
 	public void saveApplication(@RequestBody Application application, Principal principal) throws ManagedException {
-		application.setOwnerUser(userRepository.findByLogin(principal.getName()));
+		User user = userRepository.findByLogin(principal.getName());
+		if(application.getId() != null) {
+			if(!application.getOwnerUser().getId().equals(user.getId())) {
+				throw new ManagedException("Access denied! Only the owner can change the application!");
+			}
+		}
+		application.setOwnerUser(user);
 		assertNotNull(application.getName(), "Name");
 		validationService.unique(application).addParameter("name", application.getName())
 				.addParameter("ownerUser", application.getOwnerUser()).check();
@@ -38,15 +56,28 @@ public class AdminController extends BaseService{
 
 	@RequestMapping(value = "remove_application", method = RequestMethod.POST)
 	public void removeApplication(@RequestBody Application application, Principal principal) throws ManagedException {
+		User user = userRepository.findByLogin(principal.getName());
+		if(application.getId() != null) {
+			if(!application.getOwnerUser().getId().equals(user.getId())) {
+				throw new ManagedException("Access denied! Only the owner can remove the application!");
+			}
+		}
 		applicationRepository.delete(application);
 	}
 
 	@RequestMapping(value = "save_invitation", method = RequestMethod.POST)
 	public void saveInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
-		User user = userRepository.findByLogin(principal.getName());
 		assertNotNull(invitation.getApplication(), "Application");
 		assertNotNull(invitation.getEmail(), "Email");
 		assertNotNull(invitation.getPermission(), "Permission");
+		User user = userRepository.findByLogin(principal.getName());
+		Application application = applicationRepository.findOne(invitation.getApplication().getId());
+		String permission = getPermission(user, application);
+		if(!(permission.equals("admin") || permission.equals("owner"))) {
+			throw new ManagedException("Access denied! Only the owner or the admin can send the invitation!");
+		}
+
+		invitation.setApplication(application);
 		invitation.setSenderUser(user);
 		invitation.setStatus("SENT");
 		validationService.unique(invitation).addParameter("email", invitation.getEmail())
@@ -60,6 +91,12 @@ public class AdminController extends BaseService{
 
 	@RequestMapping(value = "remove_invitation", method = RequestMethod.POST)
 	public void removeInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
+		User user = userRepository.findByLogin(principal.getName());
+		Application application = applicationRepository.findOne(invitation.getApplication().getId());
+		String permission = getPermission(user, application);
+		if(!permission.equals("owner") || !invitation.getSenderUser().getId().equals(user.getId())) {
+			throw new ManagedException("Access denied! Only the owner or the invite's sender can remove the invitation!");
+		}
 		invitationRepository.delete(invitation);
 	}
 	
@@ -115,22 +152,30 @@ public class AdminController extends BaseService{
 	}
 
 	@RequestMapping(value = "select_application", method = RequestMethod.POST)
-	public void selectApplication(@RequestBody Application application, Principal principal) {
+	public void selectApplication(@RequestBody Application application, Principal principal) throws ManagedException {
 		User user = userRepository.findByLogin(principal.getName());
 		user.setCurrentApplication(applicationRepository.findOne(application.getId()));
-		user.setCurrentPermission(userService.getPermission(user, application));
+		user.setCurrentPermission(getPermission(user, application));
 		userRepository.save(user);
 	}
 
 	@RequestMapping(value = "accept_invitation", method = RequestMethod.POST)
-	public void acceptInvitation(@RequestBody Invitation invitation, Principal principal) {
+	public void acceptInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
+		User user = userRepository.findByLogin(principal.getName());
+		if(!user.getEmail().equals(invitation.getEmail())) {
+			throw new ManagedException("Access denied!");
+		}
 		invitation = invitationRepository.findOne(invitation.getId());
 		invitation.setStatus("accepted");
 		invitationRepository.save(invitation);
 	}
 
 	@RequestMapping(value = "cancel_invitation", method = RequestMethod.POST)
-	public void cancelInvitation(@RequestBody Invitation invitation, Principal principal) {
+	public void cancelInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
+		User user = userRepository.findByLogin(principal.getName());
+		if(!user.getEmail().equals(invitation.getEmail())) {
+			throw new ManagedException("Access denied!");
+		}
 		invitation = invitationRepository.findOne(invitation.getId());
 		invitation.setStatus("canceled");
 		invitationRepository.save(invitation);
