@@ -5,7 +5,6 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Service;
 
-import ru.vk.cometa.controller.BaseService;
 import ru.vk.cometa.model.Identified;
 
 @Service

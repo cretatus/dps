@@ -26,9 +26,17 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 	}
 	
 	$scope.read = function(){
-		$http.get('read/applications_by_owner')
+		$http.get('admin/read_permissions')
 			.success(function(data, status, headers, config) {
-	            $scope.applications = data;
+	            $scope.permissions = data;
+	    		$http.get('admin/read_applications')
+				.success(function(data, status, headers, config) {
+		            $scope.applications = data;
+				})
+				.error(function(data, status, headers, config) {
+					$scope.popupMessage = data.message;
+					ngDialog.open({template: 'popup', scope: $scope});
+				});
 			})
 			.error(function(data, status, headers, config) {
 				$scope.popupMessage = data.message;
@@ -38,7 +46,7 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 
 	$scope.save = function(){
 
-		$http.post('save/application', $scope.application)
+		$http.post('admin/save_application', $scope.application)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -58,7 +66,7 @@ applicationController.controller('ApplicationController', function ($scope, $htt
             scope: $scope
         }).then(
         	function () {
-        		$http.post('remove/application', application)
+        		$http.post('admin/remove_application', application)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
@@ -74,7 +82,7 @@ applicationController.controller('ApplicationController', function ($scope, $htt
 	}
 	
 	$scope.enter = function(application){
-		$http.post('operation/select_application', application)
+		$http.post('admin/select_application', application)
 		.success(function (data, status, headers, config) {
 			$window.location = '#/app';
 			$window.location.reload();

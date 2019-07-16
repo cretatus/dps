@@ -16,35 +16,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ru.vk.cometa.core.ManagedException;
-import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.ApplicationStereotypicalObject;
-import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Build;
 import ru.vk.cometa.model.BuildLog;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.User;
+import ru.vk.cometa.service.BaseService;
 
 @RestController
 @RequestMapping("/operation")
 public class OperationController extends BaseService {
-
-	@RequestMapping(value = "select_application", method = RequestMethod.POST)
-	public void selectApplication(@RequestBody Application application, Principal principal) {
-		User user = userRepository.findByLogin(principal.getName());
-		user.setCurrentApplication(applicationRepository.findOne(application.getId()));
-		userRepository.save(user);
-	}
 
 	@RequestMapping(value = "exit_application", method = RequestMethod.GET)
 	public void exitApplication(Principal principal) {
 		User user = userRepository.findByLogin(principal.getName());
 		user.setCurrentApplication(null);
 		userRepository.save(user);
-	}
-
-	@RequestMapping(value = "build_assembly", method = RequestMethod.POST)
-	public void buildAssembly(@RequestBody Assembly assembly, Principal principal) throws ManagedException {
-		buildService.buildAssembly(assembly);
 	}
 
 	@RequestMapping(value = "generate_template", method = RequestMethod.POST)

@@ -11,8 +11,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import ru.vk.cometa.service.ConfigService;
-
 @Configuration
 @EnableAsync
 public class JdbcConfigurationBean extends WebMvcConfigurerAdapter {

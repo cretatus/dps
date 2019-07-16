@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.Generator;
 import ru.vk.cometa.model.Resource;
+import ru.vk.cometa.service.BaseService;
 
 @RestController
 @RequestMapping("/upload")
@@ -33,7 +34,6 @@ public class UploadController extends BaseService {
 			@RequestPart("file") MultipartFile file, 
 			@RequestPart("parameters") String parameters, 
 			Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		try {
 			Map<String, Object> params = readParams(parameters);
 			ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
@@ -56,7 +56,6 @@ public class UploadController extends BaseService {
 			@RequestPart("text") String text, 
 			@RequestPart("parameters") String parameters, 
 			Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		try {
 			Map<String, Object> params = readParams(parameters);
 			Resource resource = findOrCreateResource(readId(params, "resourceId"));

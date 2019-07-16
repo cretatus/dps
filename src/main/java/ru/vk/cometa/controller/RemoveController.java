@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.AppEntity;
 import ru.vk.cometa.model.AppModule;
-import ru.vk.cometa.model.Package;
-import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.Area;
 import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Attribute;
@@ -19,21 +17,17 @@ import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.Element;
 import ru.vk.cometa.model.Generator;
-import ru.vk.cometa.model.Invitation;
 import ru.vk.cometa.model.MajorVersion;
+import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Platform;
-import ru.vk.cometa.model.Version;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
+import ru.vk.cometa.model.Version;
+import ru.vk.cometa.service.BaseService;
 
 @RestController
 @RequestMapping("/remove")
 public class RemoveController extends BaseService{
-
-	@RequestMapping(value = "application", method = RequestMethod.POST)
-	public void removeApplication(@RequestBody Application application, Principal principal) throws ManagedException {
-		applicationRepository.delete(application);
-	}
 
 	@RequestMapping(value = "module", method = RequestMethod.POST)
 	public void removeModule(@RequestBody AppModule module, Principal principal) throws ManagedException {
@@ -102,9 +96,5 @@ public class RemoveController extends BaseService{
 	@RequestMapping(value = "assembly", method = RequestMethod.POST)
 	public void removeAssembly(@RequestBody Assembly assembly, Principal principal) throws ManagedException {
 		buildService.removeAssembly(assembly);
-	}
-	@RequestMapping(value = "invitation", method = RequestMethod.POST)
-	public void removeInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
-		invitationRepository.delete(invitation);
 	}
 }

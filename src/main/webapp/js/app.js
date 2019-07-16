@@ -17,6 +17,10 @@ router.config(function($stateProvider, $urlRouterProvider) {
 		url : '/invitation', 
 		templateUrl : 'invitation.html',	
 		controller : 'InvitationController'})
+	.state('inbox', {
+		url : '/inbox', 
+		templateUrl : 'inbox.html',	
+		controller : 'InboxController'})
 	.state('app', {
 		url : '/app', 
 		templateUrl : 'default.html',	

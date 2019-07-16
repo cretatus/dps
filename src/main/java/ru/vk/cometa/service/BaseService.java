@@ -1,4 +1,4 @@
-package ru.vk.cometa.controller;
+package ru.vk.cometa.service;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -14,13 +14,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ru.vk.cometa.core.ConfigService;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.ApplicationNamedObject;
 import ru.vk.cometa.model.ApplicationStereotypicalObject;
 import ru.vk.cometa.model.Dependency;
+import ru.vk.cometa.model.Identified;
 import ru.vk.cometa.model.Version;
-import ru.vk.cometa.repositories.ModuleRepository;
 import ru.vk.cometa.repositories.ApplicationRepository;
 import ru.vk.cometa.repositories.AreaRepository;
 import ru.vk.cometa.repositories.AssemblyRepository;
@@ -31,28 +32,21 @@ import ru.vk.cometa.repositories.ComponentRepository;
 import ru.vk.cometa.repositories.DependencyRepository;
 import ru.vk.cometa.repositories.ElementRepository;
 import ru.vk.cometa.repositories.ElementTypeRepository;
-import ru.vk.cometa.repositories.KeyRepository;
 import ru.vk.cometa.repositories.EntityRepository;
 import ru.vk.cometa.repositories.GeneratorRepository;
 import ru.vk.cometa.repositories.InvitationRepository;
+import ru.vk.cometa.repositories.KeyRepository;
 import ru.vk.cometa.repositories.MajorVersionRepository;
+import ru.vk.cometa.repositories.MetatypeRepository;
+import ru.vk.cometa.repositories.ModuleRepository;
 import ru.vk.cometa.repositories.PackageRepository;
 import ru.vk.cometa.repositories.PlatformRepository;
 import ru.vk.cometa.repositories.ResourceRepository;
 import ru.vk.cometa.repositories.StereotypeRepository;
 import ru.vk.cometa.repositories.StructureRepository;
-import ru.vk.cometa.repositories.MetatypeRepository;
 import ru.vk.cometa.repositories.UserRepository;
 import ru.vk.cometa.repositories.VersionRepository;
 import ru.vk.cometa.repositories.VersionedObjectRepository;
-import ru.vk.cometa.service.BuildService;
-import ru.vk.cometa.service.ConfigService;
-import ru.vk.cometa.service.EmailUtil;
-import ru.vk.cometa.service.ModelService;
-import ru.vk.cometa.service.ModuleService;
-import ru.vk.cometa.service.PackageService;
-import ru.vk.cometa.service.ValidationService;
-import ru.vk.cometa.service.ZipUtil;
 
 public class BaseService {
 	@Autowired
@@ -71,6 +65,8 @@ public class BaseService {
 	protected ZipUtil zipUtil;
 	@Autowired
 	protected EmailUtil emailUtil;
+	@Autowired
+	protected UserService userService;
 
 	@Autowired
 	protected UserRepository userRepository;
@@ -120,12 +116,6 @@ public class BaseService {
 	protected BuildLogRepository buildLogRepository;
 	@Autowired
 	protected InvitationRepository invitationRepository;
-
-	public void checkCurrentApplicationIsNotNull(Principal principal) throws ManagedException {
-		if (userRepository.findByLogin(principal.getName()).getCurrentApplication() == null) {
-			throw new ManagedException("The current application is not selected");
-		}
-	}
 
 	public void assertNotNull(Object object, String objectName) throws ManagedException {
 		if (object == null) {
@@ -189,5 +179,13 @@ public class BaseService {
 		return def;
 	}
 	
+	protected boolean contains(List<Identified> list, Identified item) {
+		for(Identified i : list) {
+			if(i.getId().equals(item.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

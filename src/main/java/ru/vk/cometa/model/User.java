@@ -41,6 +41,17 @@ public class User implements Identified{
 	@JoinColumn(name = "current_version_id", nullable = true)
 	private Version currentVersion;
 
+	@Column(name = "current_permission", nullable = true)
+	private String currentPermission;
+	
+	public String getCurrentPermission() {
+		return currentPermission;
+	}
+
+	public void setCurrentPermission(String currentPermission) {
+		this.currentPermission = currentPermission;
+	}
+
 	public String getEmail() {
 		return email;
 	}

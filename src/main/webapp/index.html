@@ -52,6 +52,7 @@
     <script src="js/controllers/DebugController.js"></script>
     <script src="js/controllers/BuildController.js"></script>
     <script src="js/controllers/InvitationController.js"></script>
+    <script src="js/controllers/InboxController.js"></script>
 	<script type="text/ng-template" id="popup">
 		<p><code>{{popupMessage}}</code></p>
 	</script>
@@ -82,6 +83,7 @@
 								<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Administration <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a class="header" ng-click="selectTab('Aplications')" href="#/application">Applications</a></li>
+								<li><a class="header" ng-click="selectTab('Incoming invites')" href="#/inbox">Incoming invites</a></li>
 								<li><a class="header" ng-click="selectTab('Outgoing invites')" href="#/invitation">Outgoing invites</a></li>
 							</ul>
 						</li>

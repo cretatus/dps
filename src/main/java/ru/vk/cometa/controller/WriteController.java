@@ -2,7 +2,6 @@ package ru.vk.cometa.controller;
 
 import java.security.Principal;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,14 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.AppEntity;
 import ru.vk.cometa.model.AppModule;
-import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.Area;
 import ru.vk.cometa.model.Assembly;
 import ru.vk.cometa.model.Component;
 import ru.vk.cometa.model.Dependency;
 import ru.vk.cometa.model.Element;
 import ru.vk.cometa.model.Generator;
-import ru.vk.cometa.model.Invitation;
 import ru.vk.cometa.model.MajorVersion;
 import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Platform;
@@ -26,24 +23,14 @@ import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
 import ru.vk.cometa.model.User;
 import ru.vk.cometa.model.Version;
-import ru.vk.cometa.service.EmailUtil;
+import ru.vk.cometa.service.BaseService;
 
 @RestController
 @RequestMapping("/save")
 public class WriteController extends BaseService {
 
-	@RequestMapping(value = "application", method = RequestMethod.POST)
-	public void saveApplication(@RequestBody Application application, Principal principal) throws ManagedException {
-		application.setOwnerUser(userRepository.findByLogin(principal.getName()));
-		assertNotNull(application.getName(), "Name");
-		validationService.unique(application).addParameter("name", application.getName())
-				.addParameter("ownerUser", application.getOwnerUser()).check();
-		applicationRepository.save(application);
-	}
-
 	@RequestMapping(value = "module", method = RequestMethod.POST)
 	public void saveModule(@RequestBody AppModule module, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assertNotNull(module.getName(), "Name");
 		assertNotNull(module.getSysname(), "Sysname");
 		module.setApplication(getApplication(principal));
@@ -54,14 +41,12 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "major_version", method = RequestMethod.POST)
 	public void saveMajorVersion(@RequestBody MajorVersion major, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assertNotNull(major.getModule(), "Module");
 		moduleService.saveMajorVersion(major, getApplication(principal));
 	}
 
 	@RequestMapping(value = "minor_version", method = RequestMethod.POST)
 	public void saveMinorVersion(@RequestBody Version version, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assertNotNull(version.getModule(), "Module");
 		assertNotNull(version.getMajorVersion(), "MajorVersion");
 		moduleService.saveVersion(version, getApplication(principal));
@@ -69,7 +54,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "dependency", method = RequestMethod.POST)
 	public void saveDependency(@RequestBody Dependency dependency, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assertNotNull(dependency.getInfluencerVersion(), "Influencer");
 		assertNotNull(dependency.getDependentVersion(), "Dependent");
 		moduleService.saveDependency(dependency, getApplication(principal));
@@ -77,7 +61,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "stereotype", method = RequestMethod.POST)
 	public void saveStereotype(@RequestBody Stereotype stereotype, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		stereotype.setApplication(getApplication(principal));
 		stereotype.setVersion(getCurrentVersion(principal));
 		checkApplicationNamedObject(stereotype);
@@ -96,7 +79,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "current_version", method = RequestMethod.POST)
 	public void saveCurrentVersion(@RequestBody Version currentVersion, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		User currentUser = userRepository.findByLogin(principal.getName());
 		if (currentVersion != null) {
 			currentUser.setCurrentVersion(currentVersion);
@@ -106,7 +88,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "platform", method = RequestMethod.POST)
 	public void savePlatform(@RequestBody Platform platform, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		platform.setApplication(getApplication(principal));
 		platform.setVersion(getCurrentVersion(principal));
 		checkApplicationNamedObject(platform);
@@ -115,7 +96,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "generator", method = RequestMethod.POST)
 	public void saveGenerator(@RequestBody Generator generator, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assertNotNull(generator.getPlatform(), "Platform");
 		assertNotNull(generator.getStereotype(), "Stereotype");
 		generator.setApplication(getApplication(principal));
@@ -128,7 +108,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "component", method = RequestMethod.POST)
 	public void saveComponent(@RequestBody Component component, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assertNotNull(component.getPlatform(), "Platform");
 		component.setApplication(getApplication(principal));
 		component.setVersion(getCurrentVersion(principal));
@@ -138,7 +117,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "package", method = RequestMethod.POST)
 	public void savePackage(@RequestBody Package pack, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		pack.setApplication(getApplication(principal));
 		pack.setVersion(getCurrentVersion(principal));
 		checkApplicationNamedObject(pack);
@@ -147,7 +125,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "element", method = RequestMethod.POST)
 	public void saveElement(@RequestBody Element element, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		element.setApplication(getApplication(principal));
 		element.setVersion(getCurrentVersion(principal));
 		assertNotNull(element.getArea(), "Area");
@@ -159,7 +136,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "area", method = RequestMethod.POST)
 	public void saveArea(@RequestBody Area area, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		area.setApplication(getApplication(principal));
 		area.setVersion(getCurrentVersion(principal));
 		assertNotNull(area.getStereotype(), "Stereotype");
@@ -169,7 +145,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "structure", method = RequestMethod.POST)
 	public void saveStructure(@RequestBody Structure structure, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		structure.setApplication(getApplication(principal));
 		structure.setVersion(getCurrentVersion(principal));
 		checkApplicationStereotypicalObject(structure);
@@ -179,7 +154,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "entity", method = RequestMethod.POST)
 	public void saveEntity(@RequestBody AppEntity entity, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		entity.setApplication(getApplication(principal));
 		entity.setVersion(getCurrentVersion(principal));
 		checkApplicationStereotypicalObject(entity);
@@ -191,7 +165,6 @@ public class WriteController extends BaseService {
 
 	@RequestMapping(value = "assembly", method = RequestMethod.POST)
 	public void saveAssembly(@RequestBody Assembly assembly, Principal principal) throws ManagedException {
-		checkCurrentApplicationIsNotNull(principal);
 		assembly.setApplication(getApplication(principal));
 		validationService.unique(assembly).addParameter("name", assembly.getName()).check();
 		validationService.unique(assembly).addParameter("sysname", assembly.getSysname()).check();
@@ -199,21 +172,10 @@ public class WriteController extends BaseService {
 		buildService.saveAssembly(assembly);
 	}
 
-	@RequestMapping(value = "invitation", method = RequestMethod.POST)
-	public void saveInvitation(@RequestBody Invitation invitation, Principal principal) throws ManagedException {
-		User user = userRepository.findByLogin(principal.getName());
-		assertNotNull(invitation.getApplication(), "Application");
-		assertNotNull(invitation.getEmail(), "Email");
-		assertNotNull(invitation.getPermission(), "Permission");
-		invitation.setSenderUser(user);
-		invitation.setStatus("SENT");
-		validationService.unique(invitation).addParameter("email", invitation.getEmail())
-				.addParameter("application", invitation.getApplication()).check();
-		invitationRepository.save(invitation);
-		emailUtil.send("Co-Meta service invitation",
-				"Lets join to co-Meta! That's cool! But I do not know where it is now. You have to ask this guy about URL - "
-						+ user.getEmail() + ". He (or she) wrote this text: " + invitation.getDescription(),
-				invitation.getEmail(), user.getEmail());
+	@RequestMapping(value = "build_assembly", method = RequestMethod.POST)
+	public void buildAssembly(@RequestBody Assembly assembly, Principal principal) throws ManagedException {
+		buildService.buildAssembly(assembly);
 	}
+
 
 }

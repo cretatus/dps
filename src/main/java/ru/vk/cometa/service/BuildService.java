@@ -26,7 +26,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
 import groovy.util.Eval;
-import ru.vk.cometa.controller.BaseService;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.Application;
 import ru.vk.cometa.model.ApplicationNamedObject;

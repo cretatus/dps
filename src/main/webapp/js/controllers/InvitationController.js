@@ -26,7 +26,7 @@ invitationController.controller('InvitationController', function ($scope, $http,
 	}
 	
 	$scope.read = function(){
-		$http.get('read/all_invitatoins')
+		$http.get('admin/read_all_invitatoins')
 		.success(function(data, status, headers, config) {
             $scope.invites = data;
 		})
@@ -34,7 +34,7 @@ invitationController.controller('InvitationController', function ($scope, $http,
 			$scope.popupMessage = data.message;
 			ngDialog.open({template: 'popup', scope: $scope});
 		});
-		$http.get('read/applications_by_owner')
+		$http.get('admin/read_applications')
 		.success(function(data, status, headers, config) {
             $scope.applications = data;
 		})
@@ -48,7 +48,7 @@ invitationController.controller('InvitationController', function ($scope, $http,
 		if(!invite){
 			invite = $scope.invite;
 		}
-		$http.post('save/invitation', invite)
+		$http.post('admin/save_invitation', invite)
 			.success(function(data, status, headers, config){
 				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
@@ -68,7 +68,7 @@ invitationController.controller('InvitationController', function ($scope, $http,
             scope: $scope
         }).then(
         	function () {
-        		$http.post('remove/invitation', invite)
+        		$http.post('admin/remove_invitation', invite)
     			.success(function (data, status, headers, config) {
     				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});

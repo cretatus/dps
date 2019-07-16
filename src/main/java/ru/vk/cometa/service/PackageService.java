@@ -3,7 +3,6 @@ package ru.vk.cometa.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.vk.cometa.controller.BaseService;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Version;

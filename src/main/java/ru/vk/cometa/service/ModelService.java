@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.vk.cometa.controller.BaseService;
 import ru.vk.cometa.core.ManagedException;
 import ru.vk.cometa.model.AppEntity;
 import ru.vk.cometa.model.Attribute;

@@ -11,13 +11,16 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
                 $rootScope.authority = data.authorities["0"].authority;
                 $rootScope.authenticated = true;
                 $rootScope.userName = data.name;
-            	$http.get('read/current_application').success(function(data) {
+            	$http.get('admin/current_application')
+				.success(function(data) {
             		$rootScope.currentApplication = data;
-            	}).error(function() {
+            	})
+				.error(function(data) {
+					$scope.popupMessage = data.message;
+					ngDialog.open({template: 'popup', scope: $scope });
 	                $rootScope.authenticated = false;
 	                callback && callback();
-	            });
-            	
+		        });
             } else {
                 $rootScope.authenticated = false;
             }
