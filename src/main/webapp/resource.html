@@ -1,0 +1,187 @@
+<div class="jumbotron text-center">
+    <div class="container">
+    	
+    	<div ng-show="tableView" class="tableScroll">
+			<table>
+				<tr>
+					<td align="left"><h4>Filter:</h4></td>
+					<td width="10"></td>
+					<td align="right">Module</td>
+					<td width="10"></td>
+					<td>
+						<select ng-options="version.label for version in versions|orderBy:'-name' track by version.id"
+								name="version" id="version" class="form-control" ng-model="currentVersion"
+								ng-change="read()">
+						</select>
+					</td>
+				</tr>
+			</table>
+			<table width="100%">
+				<tr>
+					<td align="left"><h4>Resources:</h4></td>
+					<td align="right">
+			    		<button ng-click="add()" type="button" class="btn btn-success">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"> Add resource</span>
+						</button>
+					</td>
+				</tr>
+			</table>
+			<p></p>
+			<table class="table table-striped table-bordered .table-condensed">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Sysname</th>
+						<th>Description</th>
+						<th style="width:230px;">Command</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="transformation in transformations">
+						<td>{{transformation.id}}</td>
+						<td>{{transformation.name}}</td>
+						<td>{{transformation.sysname}}</td>
+						<td>{{transformation.description}}</td>
+						<td width="160">
+							<button ng-click="edit(transformation)" type="button" class="btn btn-warning" data-tooltip="Edit">
+									<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+							</button>
+							<button ng-click="remove(transformation)" type="button" class="btn btn-danger" data-tooltip="Remove">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br/>
+		</div>
+		<div ng-show="addView || editView">
+			<h3 ng-show="editView">Edit</h3>
+			<h3 ng-show="addView">Create new</h3>
+			<form role="form" ng-submit="save()">
+				<div ng-show="editView">
+					<label>ID: {{transformation.id}}</label>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Name:</label>
+					<input type="text" class="form-control" id="name" name="name" required
+						ng-model="transformation.name"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Sysname:</label>
+					<input type="text" class="form-control" id="name" name="name" ng-pattern="regexSysname" required 
+						ng-model="transformation.sysname"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="name" required>Description:</label>
+					<input type="text" class="form-control" id="name" name="name" ng-model="transformation.description"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="sourceProtocol" required>Source protocol:</label>
+					<select ng-options="protocol for protocol in protocols"
+							name="sourceProtocol" id="sourceProtocol" class="form-control" ng-model="transformation.sourceProtocol"
+							ng-change="sourceProtocolChange()">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="sourceUrl" required>Source URL:</label>
+					<input type="text" class="form-control" id="sourceUrl" name="sourceUrl" ng-pattern="regexUrl" required 
+						ng-model="transformation.sourceUrl"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="sourceReader" required>Source reader:</label>
+					<select ng-options="reader for reader in sourceReaders"
+							name="sourceReader" id="sourceReader" class="form-control" ng-model="transformation.sourceReader"
+							ng-change="sourceReaderChange()">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label>Source parameters:</label>
+					<table wigth="100%">
+						<tr>
+							<th> Name </th>
+							<th> Value </th>
+						</tr>
+						<tr ng-repeat="parameter in sourceParameters">
+							<td>{{parameter.name}}</td>
+							<td>
+								<input type="text" class="form-control" ng-pattern="parameter.regex" ng-model="parameter.value"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="targetProtocol" required>Target protocol:</label>
+					<select ng-options="protocol for protocol in protocols"
+							name="targetProtocol" id="targetProtocol" class="form-control" ng-model="transformation.targetProtocol"
+							ng-change="targetProtocolChange()">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="targetUrl" required>Target URL:</label>
+					<input type="text" class="form-control" id="targetUrl" name="targetUrl" ng-pattern="regexUrl" required 
+						ng-model="transformation.targetUrl"/>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label for="targetWriter" required>Target writer:</label>
+					<select ng-options="writer for writer in targetWriters"
+							name="targetWriter" id="targetWriter" class="form-control" ng-model="transformation.targetWriter"
+							ng-change="targetWriterChange()">
+					</select>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label>Target parameters:</label>
+					<table wigth="100%">
+						<tr>
+							<th> Name </th>
+							<th> Value </th>
+						</tr>
+						<tr ng-repeat="parameter in targetParameters">
+							<td>{{parameter.name}}</td>
+							<td>
+								<input type="text" class="form-control" ng-pattern="parameter.regex" ng-model="parameter.value"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="form-group margin-form" style="width:300px;">
+					<label>Transforming code</label>
+					<table>
+					<tr>
+						<td><input type="file" file-model="importFile" class="btn btn-info" id="importFile" /></td>
+						<td>
+							<button ng-click="openFile()" type="button" class="btn btn-success" data-tooltip="Open file" ng-disabled="!importFile">
+								<span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="transformingCodeEncoding" required>File encoding:</label>
+							<input type="text" class="form-control" id="transformingCodeEncoding" name="transformingCodeEncoding" 
+								ng-model="transformingCodeEncoding" ng-disabled="!importFile"/>
+						</td>
+					</tr>
+					</table>
+					<textarea  style="font:normal 14px 'Courier New';height:200px;width:300px;" 
+						class="form-control" id="transformingCodeText" name="transformingCodeText" 
+						ng-model="transformingCodeText" ng-change="transformingCodeTextChange()"></textarea>
+				</div>
+				<br/>
+				<div class="row form-group margin-form">
+					<div class="col-lg-6 text-right">
+						<button ng-click="show()" type="button" class="btn btn-success">
+							<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> Back</span>
+						</button>
+					</div>
+					<div class="col-lg-6 text-left">
+						<button type="submit" class="btn btn-success">
+							<span class="glyphicon glyphicon-saved" aria-hidden="true"> Save</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+    </div>
+</div>
