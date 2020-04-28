@@ -21,6 +21,7 @@ import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Platform;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
+import ru.vk.cometa.model.Transformation;
 import ru.vk.cometa.model.User;
 import ru.vk.cometa.model.Version;
 import ru.vk.cometa.service.BaseService;
@@ -177,5 +178,20 @@ public class WriteController extends BaseService {
 		buildService.buildAssembly(assembly);
 	}
 
+	@RequestMapping(value = "transformation", method = RequestMethod.POST)
+	public void saveTransformation(@RequestBody Transformation transformation, Principal principal) throws ManagedException {
+		assertNotNull(transformation.getName(), "Name");
+		assertNotNull(transformation.getSysname(), "Sysname");
+		assertNotNull(transformation.getSourceProtocol(), "Source protocol");
+		assertNotNull(transformation.getSourceReader(), "Source reader");
+		assertNotNull(transformation.getSourceParameters(), "Source parameters");
+		assertNotNull(transformation.getTargetProtocol(), "Target protocol");
+		assertNotNull(transformation.getTargetWriter(), "Target reader");
+		assertNotNull(transformation.getTargetParameters(), "Target parameters");
+		transformation.setApplication(getApplication(principal));
+		transformation.setVersion(getCurrentVersion(principal));
+		checkApplicationNamedObject(transformation);
+		transformationRepository.save(transformation);
+	}
 
 }

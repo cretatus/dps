@@ -44,6 +44,7 @@ import ru.vk.cometa.repositories.PlatformRepository;
 import ru.vk.cometa.repositories.ResourceRepository;
 import ru.vk.cometa.repositories.StereotypeRepository;
 import ru.vk.cometa.repositories.StructureRepository;
+import ru.vk.cometa.repositories.TransformationRepository;
 import ru.vk.cometa.repositories.UserRepository;
 import ru.vk.cometa.repositories.VersionRepository;
 import ru.vk.cometa.repositories.VersionedObjectRepository;
@@ -65,6 +66,8 @@ public class BaseService {
 	protected ZipUtil zipUtil;
 	@Autowired
 	protected EmailUtil emailUtil;
+	@Autowired
+	protected AdapterService adapterService;
 
 	@Autowired
 	protected UserRepository userRepository;
@@ -114,6 +117,8 @@ public class BaseService {
 	protected BuildLogRepository buildLogRepository;
 	@Autowired
 	protected InvitationRepository invitationRepository;
+	@Autowired
+	protected TransformationRepository transformationRepository;
 
 	public void assertNotNull(Object object, String objectName) throws ManagedException {
 		if (object == null) {

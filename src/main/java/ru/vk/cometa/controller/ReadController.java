@@ -224,4 +224,10 @@ public class ReadController extends BaseService {
 	public List<BuildLog>  getBuildlogs(@RequestBody Build build, Principal principal) throws ManagedException {
 		return buildLogRepository.findByBuild(build);
 	}
+
+	@RequestMapping(value = "transformations", method = RequestMethod.GET)
+	public List<ApplicationNamedObject>  getTransformations(Principal principal) throws ManagedException {
+		return transformationRepository.findByVersion(getCurrentVersion(principal));
+	}
+
 }

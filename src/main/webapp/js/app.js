@@ -89,6 +89,10 @@ router.config(function($stateProvider, $urlRouterProvider) {
 		url : '/build', 
 		templateUrl : 'build.html',	
 		controller : 'BuildController'})
+	.state('transformation', {
+		url : '/transformation', 
+		templateUrl : 'transformation.html',	
+		controller : 'TransformationController'})
 	;
 
 	$urlRouterProvider.otherwise('/');

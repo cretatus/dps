@@ -22,6 +22,7 @@ import ru.vk.cometa.model.Package;
 import ru.vk.cometa.model.Platform;
 import ru.vk.cometa.model.Stereotype;
 import ru.vk.cometa.model.Structure;
+import ru.vk.cometa.model.Transformation;
 import ru.vk.cometa.model.Version;
 import ru.vk.cometa.service.BaseService;
 
@@ -96,5 +97,9 @@ public class RemoveController extends BaseService{
 	@RequestMapping(value = "assembly", method = RequestMethod.POST)
 	public void removeAssembly(@RequestBody Assembly assembly, Principal principal) throws ManagedException {
 		buildService.removeAssembly(assembly);
+	}
+	@RequestMapping(value = "transformation", method = RequestMethod.POST)
+	public void removeTransformation(@RequestBody Transformation transformation, Principal principal) throws ManagedException {
+		transformationRepository.delete(transformation);
 	}
 }

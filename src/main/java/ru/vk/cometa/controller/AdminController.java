@@ -2,6 +2,7 @@ package ru.vk.cometa.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,4 +182,27 @@ public class AdminController extends BaseService{
 		invitationRepository.save(invitation);
 	}
 	
+	@RequestMapping(value = "transformation_config", method = RequestMethod.GET)
+	public Map<String, Object>  getTransformationConfig(Principal principal) throws ManagedException {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, List<String>> adapters = new HashMap<String, List<String>>();
+		List<String> protocols = Arrays.asList(new String[] {"http", "jdbc", "co-meta"});
+		Map<String, List<Map<String, String>>> parameters = new HashMap<String, List<Map<String, String>>>();
+		adapters.put("http", Arrays.asList(new String[] {
+				ru.vk.cometa.service.transformation.XmlAdapter.class.getSimpleName()}));
+		adapters.put("jdbc", Arrays.asList(new String[] {
+				ru.vk.cometa.service.transformation.MysqlAdapter.class.getSimpleName()}));
+		adapters.put("co-meta", Arrays.asList(new String[] {
+				ru.vk.cometa.service.transformation.CometaAdapter.class.getSimpleName()}));
+		
+		result.put("protocols", protocols);
+		result.put("adapters", adapters);
+		result.put("parameters", parameters);
+		for(String protocol : adapters.keySet()) {
+			for(String adapter : adapters.get(protocol)) {
+				parameters.put(adapter, adapterService.getAdapterByClassName(adapter).createParamsList());
+			}
+		}
+		return result;
+	}
 }

@@ -111,15 +111,18 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 		}
 	}
 
-	$scope.uploadFile = function(){
-		var parameters = {
-				resourceId: $scope.generator.resource.id,
-				templateFormat: $scope.templateFormat,
-				templateEncoding: $scope.templateEncoding,
+	$scope.createUploadParams = function(){
+		return {
+			resourceId: $scope.generator.resource.id,
+			resourceFormat: $scope.templateFormat,
+			resourceEncoding: $scope.templateEncoding,
 		};
+	}
+
+	$scope.uploadFile = function(){
 		var fd = new FormData();
 		fd.append('file', $scope.importFile);
-		fd.append('parameters', JSON.stringify(parameters));
+		fd.append('parameters', JSON.stringify($scope.createUploadParams()));
 
 		$http.post("upload/file_upload", fd, {
 			transformRequest : angular.identity,
@@ -138,14 +141,9 @@ generatorController.controller('GeneratorController', function ($scope, $http, n
 	}
 
 	$scope.uploadText = function(){
-		var parameters = {
-				resourceId: $scope.generator.resource.id,
-				templateFormat: $scope.templateFormat,
-				templateEncoding: $scope.templateEncoding,
-		};
 		var fd = new FormData();
 		fd.append('text', $scope.templateText);
-		fd.append('parameters', JSON.stringify(parameters));
+		fd.append('parameters', JSON.stringify($scope.createUploadParams()));
 
 		$http.post("upload/text_upload", fd, {
 			transformRequest : angular.identity,

@@ -39,7 +39,7 @@ moduleController.controller('ModuleController', function ($scope, $http, ngDialo
 	$scope.save = function(){
 		$http.post('save/module', $scope.module)
 			.success(function(data, status, headers, config){
-				$scope.popupMessage = 'Успешно сохранено';
+				$scope.popupMessage = 'Done';
 				ngDialog.open({template: 'popup', scope: $scope});
 				$scope.show();
 			})
@@ -50,7 +50,7 @@ moduleController.controller('ModuleController', function ($scope, $http, ngDialo
 	}
 
 	$scope.remove = function(module){
-        $scope.confirmMessage = "Удалить приложение?";
+        $scope.confirmMessage = "Remove the record?";
         ngDialog.openConfirm({
             template: 'confirm_form.html',
             className: 'ngdialog-theme-default custom-width',
@@ -59,7 +59,7 @@ moduleController.controller('ModuleController', function ($scope, $http, ngDialo
         	function () {
         		$http.post('remove/module', module)
     			.success(function (data, status, headers, config) {
-    				$scope.popupMessage = 'Успешно удалено';
+    				$scope.popupMessage = 'Done';
     				ngDialog.open({template: 'popup', scope: $scope});
     				$scope.show();
     			})
