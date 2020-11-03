@@ -40,7 +40,7 @@ public class Application implements Identified{
 	}
 
 	public String getOwnerUserName() {
-		return ownerUser.getName();
+		return ownerUser.getEmail();
 	}
 
 	public void setOwnerUserName(String ownerUserName) {

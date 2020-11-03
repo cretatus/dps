@@ -40,12 +40,6 @@ public class ReadController extends BaseService {
 		return getCurrentVersion(principal);
 	}
 
-	@RequestMapping(value = "modules", method = RequestMethod.GET)
-	public List<AppModule> getModules(Principal principal) throws ManagedException {
-		return moduleRepository.findByApplication(
-				userRepository.findByLogin(principal.getName()).getCurrentApplication());
-	}
-
 	@RequestMapping(value = "major_versions", method = RequestMethod.POST)
 	public List<MajorVersion> getMajorVersions(@RequestBody AppModule module, Principal principal) throws ManagedException {
 		return majorVersionRepository.findByModule(module);

@@ -82,7 +82,7 @@ public class WriteController extends BaseService {
 	public void saveCurrentVersion(@RequestBody Version currentVersion, Principal principal) throws ManagedException {
 		User currentUser = userRepository.findByLogin(principal.getName());
 		if (currentVersion != null) {
-			currentUser.setCurrentVersion(currentVersion);
+//			currentUser.setCurrentVersion(currentVersion);
 			userRepository.save(currentUser);
 		}
 	}

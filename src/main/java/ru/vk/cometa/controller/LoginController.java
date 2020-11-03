@@ -50,22 +50,17 @@ public class LoginController {
 
 	@RequestMapping("/register")
     public User register(@RequestBody Map<String, String> params) throws ManagedException {
-		if(!params.containsKey("username") || !params.containsKey("password") || !params.containsKey("email")) {
+		if(!params.containsKey("password") || !params.containsKey("email")) {
 			throw new ManagedException("User parameters are incorrect");
 		}
-		validationService.assertNotNull(params.get("username"), "User name");
 		validationService.assertNotNull(params.get("password"), "Password");
 		validationService.assertNotNull(params.get("email"), "E-mail");
         User user = new User();
-        user.setLogin(params.get("username"));
-        user.setName(params.get("username"));
         user.setPassword(params.get("password"));
         user.setEmail(params.get("email"));
-		validationService.unique(user).addParameter("name", user.getName()).check();
-		validationService.unique(user).addParameter("login", user.getLogin()).check();
 		validationService.unique(user).addParameter("email", user.getEmail()).check();
 		user = userRepository.save(user);
-		emailUtil.send("Registration in co-Meta service", "Welcome! Your account = [" + user.getLogin() + "], password = [" + user.getPassword() + "]", user.getEmail());
+		//emailUtil.send("Registration in DPS", "Welcome! Your account = [" + user.getEmail() + "], password = [" + user.getPassword() + "]", user.getEmail());
 		return user;
     }
 
@@ -80,14 +75,14 @@ public class LoginController {
         public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         	
 			String sql1 = "";
-			sql1 += "select login as username, password,'true' as enabled ";
+			sql1 += "select email as username, password,'true' as enabled ";
 			sql1 += "from user ";
-			sql1 += "where login=?";
+			sql1 += "where email=?";
 
 			String sql2 = "";
-			sql2 += "select login as username, 'role' as authority ";
+			sql2 += "select email as username, 'role' as authority ";
 			sql2 += "from user ";
-			sql2 += "where login=?";
+			sql2 += "where email=?";
 
 			auth.jdbcAuthentication().dataSource(dataSource)
             	.usersByUsernameQuery(sql1)

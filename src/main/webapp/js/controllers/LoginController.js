@@ -92,9 +92,6 @@ loginController.controller('LoginController', function ($rootScope, $scope, $htt
 
     $scope.registerSubmit = function(){
     	$scope.popupMessage = "";
-    	if($scope.registration.username.length < 6){
-    		$scope.popupMessage = "The account name is too short (min 6 signs)";
-    	}  
     	if($scope.registration.password != $scope.registration.confPassword){
     		$scope.popupMessage = "The confirmation of password is not correct";
     	}

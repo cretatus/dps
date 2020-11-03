@@ -32,12 +32,14 @@ public class WriteApplicationFilter implements Filter {
 			throw new ServletException("Access denied!");
 		}
 		User user = userRepository.findByLogin(req.getUserPrincipal().getName());
+		/*
 		if(user.getCurrentApplication() == null) {
 			throw new ServletException("Application is not defined. Access denied!");
 		}
 		if(!"write".equals(user.getCurrentPermission()) && !"adimn".equals(user.getCurrentPermission()) && !"owner".equals(user.getCurrentPermission())) {
 			throw new ServletException("Access denied! It can do admin, owner or writer");
 		}
+		*/
 		chain.doFilter(request, response);
 	}
 

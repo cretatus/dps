@@ -127,11 +127,11 @@ public class BaseService {
 	}
 
 	public Application getApplication(Principal principal) {
-		return userRepository.findByLogin(principal.getName()).getCurrentApplication();
+		return null; //userRepository.findByLogin(principal.getName()).getCurrentApplication();
 	}
 
 	public Version getCurrentVersion(Principal principal) {
-		return userRepository.findByLogin(principal.getName()).getCurrentVersion();
+		return null; //userRepository.findByLogin(principal.getName()).getCurrentVersion();
 	}
 
 	public List<ApplicationNamedObject> selectValidObjects(VersionedObjectRepository repository, Principal principal){

@@ -29,14 +29,14 @@ public class AdminController extends BaseService{
 		}
 		Invitation invitation = invitationRepository.findByApplicationAndEmail(application, user.getEmail());
 		if(invitation == null) {
-			throw new ManagedException("The user " + user.getName() + " does not have rights on the application " + application.getName());
+			throw new ManagedException("The user does not have rights on the application " + application.getName());
 		}
 		return invitation.getPermission();
 	}
 
 	@RequestMapping(value = "current_application", method = RequestMethod.GET)
 	public Application getCurrentApplication(Principal principal) throws ManagedException {
-		return userRepository.findByLogin(principal.getName()).getCurrentApplication();
+		return null; //userRepository.findByLogin(principal.getName()).getCurrentApplication();
 	}
 
 
@@ -84,10 +84,12 @@ public class AdminController extends BaseService{
 		validationService.unique(invitation).addParameter("email", invitation.getEmail())
 				.addParameter("application", invitation.getApplication()).check();
 		invitationRepository.save(invitation);
+		/*
 		emailUtil.send("Co-Meta service invitation",
 				"Lets join to co-Meta! That's cool! But I do not know where it is now. You have to ask this guy about URL - "
 						+ user.getEmail() + ". He (or she) wrote this text: " + invitation.getDescription(),
 				invitation.getEmail(), user.getEmail());
+				*/
 	}
 
 	@RequestMapping(value = "remove_invitation", method = RequestMethod.POST)
@@ -155,8 +157,10 @@ public class AdminController extends BaseService{
 	@RequestMapping(value = "select_application", method = RequestMethod.POST)
 	public void selectApplication(@RequestBody Application application, Principal principal) throws ManagedException {
 		User user = userRepository.findByLogin(principal.getName());
+		/*
 		user.setCurrentApplication(applicationRepository.findOne(application.getId()));
 		user.setCurrentPermission(getPermission(user, application));
+		*/
 		userRepository.save(user);
 	}
 

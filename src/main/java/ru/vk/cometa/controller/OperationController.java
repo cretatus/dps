@@ -30,7 +30,7 @@ public class OperationController extends BaseService {
 	@RequestMapping(value = "exit_application", method = RequestMethod.GET)
 	public void exitApplication(Principal principal) {
 		User user = userRepository.findByLogin(principal.getName());
-		user.setCurrentApplication(null);
+		//user.setCurrentApplication(null);
 		userRepository.save(user);
 	}
 

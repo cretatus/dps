@@ -32,9 +32,11 @@ public class ReadApplicationFilter implements Filter {
 			throw new ServletException("Access denied!");
 		}
 		User user = userRepository.findByLogin(req.getUserPrincipal().getName());
+		/*
 		if(user.getCurrentApplication() == null) {
 			throw new ServletException("Application is not defined. Access denied!");
 		}
+		*/
 		chain.doFilter(request, response);
 	}
 

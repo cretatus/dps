@@ -10,51 +10,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailUtil {
+	private static final String emailFrom = "data.precessing.service@yandex.ru";
+	private static final String emailPassword = "dps2020";
+	
 	public void send(String subject, String text, String toEmail) {
-		send(subject, text, toEmail, "co.meta.saas@gmail.com");
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.yandex.ru");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+		Session session = Session.getDefaultInstance(props,
+				new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(emailFrom, emailPassword);
+					}
+				});
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailFrom));
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+			message.setSubject(subject);
+			message.setText(text);
+			Transport.send(message);
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public void send(String subject, String text, String toEmail, String fromEmail) {
-		Sender sender = new Sender("co.meta.saas@gmail.com", "20coMEta19!");
-		sender.send(subject, text, fromEmail, toEmail);
-	}
-}
-
-class Sender {
-
-    private String username;
-    private String password;
-    private Properties props;
-
-    public Sender(String username, String password) {
-        this.username = username;
-        this.password = password;
-
-        props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-    }
-
-    public void send(String subject, String text, String fromEmail, String toEmail){
-        Session session = Session.getDefaultInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-            message.setSubject(subject);
-            message.setText(text);
-
-            Transport.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
